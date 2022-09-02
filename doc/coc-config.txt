@@ -61,7 +61,7 @@ Completion related~
 
 	Avoid select complete item on completion start, default: `false`.
 
-	Note: default changed to `false` on coc.nvim 0.0.82 to provide preselect
+	Default changed to `false` on coc.nvim 0.0.82 to provide preselect
 	item.
 
 "suggest.selection"					*coc-config-suggest-selection*
@@ -90,11 +90,11 @@ Completion related~
 	Configure style of popup menu and documentation window for completion,
 	see |coc-config-float|.
 
-	Note: some properties not work, including: "title", "focusable",
+	Some properties not work, including: "title", "focusable",
 	"close" and "maxHeight" (use 'pumheight' option for maximum height of
 	popup menu).
 
-	Note: "maxWidth" not works for popup menu, use
+	"maxWidth" not works for popup menu, use
 	|coc-config-suggest-detailMaxLength| instead.
 
 "suggest.pumFloatConfig"				*coc-config-suggest-pumFloatConfig*
@@ -149,7 +149,7 @@ Completion related~
 	`CompletionClientCapabilities.completionItem.snippetSupport` to
 	`false` as well.
 
-	Note: the language server may still send completion items with
+	The language server may still send completion items with
 	snippets when falsy.
 
 "suggest.fixInsertedWord"				*coc-config-suggest-fixInsertedWord*
@@ -221,44 +221,44 @@ Completion related~
 
 "suggest.virtualText" 					*coc-config-suggest-virtualText*
 
-	Show virtual text for insert word of selected item, works on neovim >=
-	0.5.0, default: `false`
+	Show virtual text for insert word of selected item, works on neovim >=  0.5.0, default: `false`
 
 "suggest.completionItemKindLabels"			*coc-config-suggest-completionItemKindLabels*
 
 	Set custom labels to completion item kinds, default: `{}`.
 
-	Example configuration: with https://nerdfonts.com:  >
+	Example configuration: with https://nerdfonts.com:
+
 
 	  "suggest.completionItemKindLabels": {
-		"keyword": "\uf1de",
-		"variable": "\ue79b",
-		"value": "\uf89f",
-		"operator": "\u03a8",
-		"constructor": "\uf0ad",
-		"function": "\u0192",
-		"reference": "\ufa46",
-		"constant": "\uf8fe",
-		"method": "\uf09a",
-		"struct": "\ufb44",
-		"class": "\uf0e8",
-		"interface": "\uf417",
-		"text": "\ue612",
-		"enum": "\uf435",
-		"enumMember": "\uf02b",
-		"module": "\uf40d",
-		"color": "\ue22b",
-		"property": "\ue624",
-		"field": "\uf9be",
-		"unit": "\uf475",
-		"event": "\ufacd",
-		"file": "\uf723",
-		"folder": "\uf114",
-		"snippet": "\ue60b",
-		"typeParameter": "\uf728",
-		"default": "\uf29c"
+		"keyword"       :  "\uf1de" ,
+		"variable"      :  "\ue79b" ,
+		"value"         :  "\uf89f" ,
+		"operator"      :  "\u03a8" ,
+		"constructor"   :  "\uf0ad" ,
+		"function"      :  "\u0192" ,
+		"reference"     :  "\ufa46" ,
+		"constant"      :  "\uf8fe" ,
+		"method"        :  "\uf09a" ,
+		"struct"        :  "\ufb44" ,
+		"class"         :  "\uf0e8" ,
+		"interface"     :  "\uf417" ,
+		"text"          :  "\ue612" ,
+		"enum"          :  "\uf435" ,
+		"enumMember"    :  "\uf02b" ,
+		"module"        :  "\uf40d" ,
+		"color"         :  "\ue22b" ,
+		"property"      :  "\ue624" ,
+		"field"         :  "\uf9be" ,
+		"unit"          :  "\uf475" ,
+		"event"         :  "\ufacd" ,
+		"file"          :  "\uf723" ,
+		"folder"        :  "\uf114" ,
+		"snippet"       :  "\ue60b" ,
+		"typeParameter" :  "\uf728" ,
+		"default"       :  "\uf29c"
 	}
-<
+
 ------------------------------------------------------------------------------
 Document highlight~
 							*coc-config-documentHighlight*
@@ -293,231 +293,248 @@ Links~
 ------------------------------------------------------------------------------
 Diagnostics~
 							*coc-config-diagnostic*
-"diagnostic.enable"					*coc-config-diagnostic-enable*
+    "diagnostic.enable"					*coc-config-diagnostic-enable*
 
-	Display diagnostics, default: `true`
+        Display diagnostics, default: `true`
 
-"diagnostic.autoRefresh"				*coc-config-diagnostic-autoRefresh*
+    "diagnostic.autoRefresh"
+            *coc-config-diagnostic-autoRefresh*
+        Enable automatically refresh diagnostics, use
+        |CocAction('diagnosticRefresh')| action to refresh diagnostics when it's
+        disabled, default: `true`
 
-	Enable automatically refresh diagnostics, use
-	|CocAction('diagnosticRefresh')| action to refresh diagnostics when it's
-	disabled, default: `true`
+    "diagnostic.refreshOnInsertMode"			*coc-config-diagnostic-refreshOnInsertMode*
 
-"diagnostic.refreshOnInsertMode"			*coc-config-diagnostic-refreshOnInsertMode*
+        Refresh diagnostics when in insert mode, default: `false`
 
-	Refresh diagnostics when in insert mode, default: `false`
+    "diagnostic.displayByAle"				*coc-config-diagnostic-displayByAle*
 
-"diagnostic.displayByAle"				*coc-config-diagnostic-displayByAle*
+        Use ALE for displaying diagnostics. This will disable coc.nvim for
+        displaying diagnostics. Restart to make changes take the effect,
+        default: `false`
 
-	Use ALE for displaying diagnostics. This will disable coc.nvim for
-	displaying diagnostics. Restart to make changes take the effect,
-	default: `false`
+    "diagnostic.level"					*coc-config-diagnostic-level*
 
-"diagnostic.level"					*coc-config-diagnostic-level*
+        Filter diagnostics by severity level (affect both UI and diagnostic
+        list), default: `"hint"`
 
-	Filter diagnostics by severity level (affect both UI and diagnostic
-	list), default: `"hint"`
+        Valid options: ["hint", "information", "warning", "error"]
 
-	Valid options: ["hint", "information", "warning", "error"]
+    "diagnostic.highlightLimit"				*coc-config-diagnostic-highlightLimit*
 
-"diagnostic.highlightLimit"				*coc-config-diagnostic-highlightLimit*
+        Limit count for highlighted diagnostics, too many diagnostic
+        highlights could make vim stop responding.
 
-	Limit count for highlighted diagnostics, too many diagnostic
-	highlights could make vim stop responding.
+        Default: `1000`
 
-	Default: `1000`
+    "diagnostic.highlightPriority"				*coc-config-diagnostic-highlightPriority*
 
-"diagnostic.highlightPriority"				*coc-config-diagnostic-highlightPriority*
+        Priority for diagnostic highlights, works on vim8 and neovim >= 0.6.0
 
-	Priority for diagnostic highlights, works on vim8 and neovim >= 0.6.0
+        Default: `4096`
 
-	Default: `4096`
+    "diagnostic.enableSign"					*coc-config-diagnostic-enableSign*
 
-"diagnostic.enableSign"					*coc-config-diagnostic-enableSign*
+        Enable signs for diagnostics, default: `true`
 
-	Enable signs for diagnostics, default: `true`
+    "diagnostic.signLevel"					*coc-config-diagnostic-signLevel*
 
-"diagnostic.signLevel"					*coc-config-diagnostic-signLevel*
+        Filter diagnostics in sign column, default: `null`.
 
-	Filter diagnostics in sign column, default: `null`.
+    "diagnostic.signPriority"				*coc-config-diagnostic-signPriority*
 
-"diagnostic.signPriority"				*coc-config-diagnostic-signPriority*
+        Priority of diagnostic sign, default to `10`, check |sign-priority|.
 
-	Priority of diagnostic sign, default to `10`, check |sign-priority|.
+    "diagnostic.errorSign"					*coc-config-diagnostic-errorSign*
 
-"diagnostic.errorSign"					*coc-config-diagnostic-errorSign*
+        Sign of error diagnostics shown in the 'signcolumn', default: `">>"`
 
-	Sign of error diagnostics shown in the 'signcolumn', default: `">>"`
+    "diagnostic.warningSign"				*coc-config-diagnostic-warningSign*
 
-"diagnostic.warningSign"				*coc-config-diagnostic-warningSign*
+        Sign of warning diagnostics shown in the 'signcolumn', default: `"⚠"`
 
-	Sign of warning diagnostics shown in the 'signcolumn', default: `"⚠"`
+    "diagnostic.infoSign"					*coc-config-diagnostic-infoSign*
 
-"diagnostic.infoSign"					*coc-config-diagnostic-infoSign*
+        Sign of info diagnostics shown in the 'signcolumn', default: `">>"`
 
-	Sign of info diagnostics shown in the 'signcolumn', default: `">>"`
+    "diagnostic.hintSign"					*coc-config-diagnostic-hintSign*
 
-"diagnostic.hintSign"					*coc-config-diagnostic-hintSign*
+        Sign of hint diagnostics shown in the 'signcolumn', default: `">>"`
 
-	Sign of hint diagnostics shown in the 'signcolumn', default: `">>"`
 
+    "diagnostic.enableHighlightLineNumber"			*coc-config-diagnostic-enableHighlightLineNumber*
 
-"diagnostic.enableHighlightLineNumber"			*coc-config-diagnostic-enableHighlightLineNumber*
+        Enable highlighting line numbers for diagnostics, only works with
+        neovim and `diagnostic.enableSign` is true.
 
-	Enable highlighting line numbers for diagnostics, only works with
-	neovim and `diagnostic.enableSign` is true.
+        default: `true`
 
-	default: `true`
+    "diagnostic.locationlistUpdate"				*coc-config-diagnostic-locationlistUpdate*
 
-"diagnostic.locationlistUpdate"				*coc-config-diagnostic-locationlistUpdate*
+        Update locationlist on diagnostics change, only works with
+        locationlist opened by :CocDiagnostics command and first window of
+        associated buffer.
 
-	Update locationlist on diagnostics change, only works with
-	locationlist opened by :CocDiagnostics command and first window of
-	associated buffer.
+        default: `true`
 
-	default: `true`
+    "diagnostic.locationlistLevel"				*coc-config-diagnostic-locationlistLevel*
 
-"diagnostic.locationlistLevel"				*coc-config-diagnostic-locationlistLevel*
+        Filter diagnostics in locationlist, default: `null`.
 
-	Filter diagnostics in locationlist, default: `null`.
+    "diagnostic.enableMessage"				*coc-config-diagnostic-enableMessage*
 
-"diagnostic.enableMessage"				*coc-config-diagnostic-enableMessage*
+        When to enable show messages of diagnostics.
 
-	When to enable show messages of diagnostics.
+        Valid options: ["always","jump","never"], always means including
+        cursor hold and after jump to another diagnostic.
 
-	Valid options: ["always","jump","never"], always means including
-	cursor hold and after jump to another diagnostic.
+        default: `"always"`
 
-	default: `"always"`
+    "diagnostic.messageLevel"				*coc-config-diagnostic-messageLevel*
 
-"diagnostic.messageLevel"				*coc-config-diagnostic-messageLevel*
+        Filter diagnostic message in float window/popup, default: `null`.
 
-	Filter diagnostic message in float window/popup, default: `null`.
+    "diagnostic.checkCurrentLine"				*coc-config-diagnostic-checkCurrentLine*
 
-"diagnostic.checkCurrentLine"				*coc-config-diagnostic-checkCurrentLine*
+        Show all diagnostics of the current line if none of them are at the
+        current position, default: `false`
 
-	Show all diagnostics of the current line if none of them are at the
-	current position, default: `false`
+    "diagnostic.messageDelay"				*coc-config-diagnostic-messageDelay*
 
-"diagnostic.messageDelay"				*coc-config-diagnostic-messageDelay*
+        How long to wait (in milliseconds) before displaying the diagnostic
+        message with echo or float.
 
-	How long to wait (in milliseconds) before displaying the diagnostic
-	message with echo or float.
+        Default: `200`
 
-	Default: `200`
+    "diagnostic.messageTarget"				*coc-config-diagnostic-messageTarget*
 
-"diagnostic.messageTarget"				*coc-config-diagnostic-messageTarget*
+        Diagnostic message target, default: `"float"`
 
-	Diagnostic message target, default: `"float"`
+        Valid options: ["echo", "float"]
 
-	Valid options: ["echo", "float"]
+    "diagnostic.format"					*coc-config-diagnostic-format*
 
-"diagnostic.format"					*coc-config-diagnostic-format*
+        Define the diagnostic message format.
+        Available parts: source, code, severity, message
 
-	Define the diagnostic message format.
-	Available parts: source, code, severity, message
+        Default: `%message (%source%code)`
 
-	Default: `%message (%source%code)`
+    "diagnostic.floatConfig"				*coc-config-diagnostic-floatConfig*
 
-"diagnostic.floatConfig"				*coc-config-diagnostic-floatConfig*
+        Configuration of floating window/popup, see |coc-config-float|.
 
-	Configuration of floating window/popup, see |coc-config-float|.
+    "diagnostic.filetypeMap"				*coc-config-diagnostic-filetypeMap*
 
-"diagnostic.filetypeMap"				*coc-config-diagnostic-filetypeMap*
+        A map between buffer filetype and the filetype assigned to diagnostics
+        in float window. To syntax highlight diagnostics with their parent
+        buffer type use `"default": "bufferType"`, default: `{}`
 
-	A map between buffer filetype and the filetype assigned to diagnostics
-	in float window. To syntax highlight diagnostics with their parent
-	buffer type use `"default": "bufferType"`, default: `{}`
+    virtualtext
+        "diagnostic.virtualText"				*coc-config-diagnostic-virtualText*
 
-"diagnostic.virtualText"				*coc-config-diagnostic-virtualText*
+            Use Neovim virtual text to display diagnostics, default: `false`
 
-	Use Neovim virtual text to display diagnostics, default: `false`
+        "diagnostic.virtualTextLevel"				*coc-config-diagnostic-virtualTextLevel*
 
-"diagnostic.virtualTextLevel"				*coc-config-diagnostic-virtualTextLevel*
+            Filter diagnostic message in virtual text by level, default: `null`
 
-	Filter diagnostic message in virtual text by level, default: `null`
+        "diagnostic.virtualTextWinCol"				*coc-config-diagnostic-virtualTextWinCol*
 
-"diagnostic.virtualTextWinCol"				*coc-config-diagnostic-virtualTextWinCol*
+            Window column number to align virtual text, default: `null`
 
-	Window column number to align virtual text, default: `null`
+        "diagnostic.virtualTextCurrentLineOnly"			*coc-config-diagnostic-virtualTextCurrentLineOnly*
 
-"diagnostic.virtualTextCurrentLineOnly"			*coc-config-diagnostic-virtualTextCurrentLineOnly*
+            Only show virtualText diagnostic on current cursor line, default:
+            `true`
 
-	Only show virtualText diagnostic on current cursor line, default:
-	`true`
+        "diagnostic.virtualTextPrefix"				*coc-config-diagnostic-virtualTextPrefix*
 
-"diagnostic.virtualTextPrefix"				*coc-config-diagnostic-virtualTextPrefix*
+            The prefix added for virtual text diagnostics, default: `" "`
 
-	The prefix added for virtual text diagnostics, default: `" "`
+        "diagnostic.virtualTextLines"				*coc-config-diagnostic-virtualTextLines*
 
-"diagnostic.virtualTextLines"				*coc-config-diagnostic-virtualTextLines*
+            The number of non-empty lines from a diagnostic to display, default: `3`
 
-	The number of non-empty lines from a diagnostic to display, default: `3`
+        "diagnostic.virtualTextLineSeparator"			*coc-config-diagnostic-virtualTextLineSeparator*
 
-"diagnostic.virtualTextLineSeparator"			*coc-config-diagnostic-virtualTextLineSeparator*
+            The text that will mark a line end from the diagnostic message,
+            default: `" \\ "`
 
-	The text that will mark a line end from the diagnostic message,
-	default: `" \\ "`
-
-"diagnostic.separateRelatedInformationAsDiagnostics"	*coc-config-diagnostic-separateRelatedInformationAsDiagnostics*
-
-	Separate related information as diagnostics, default: `false`
+        "diagnostic.separateRelatedInformationAsDiagnostics"
+                    *coc-config-diagnostic-separateRelatedInformationAsDiagnostics*
+            Separate related information as diagnostics,
+            default: `false`
 
 ------------------------------------------------------------------------------
 PullDiagnostic~
 
-							*coc-config-pullDiagnostic*
-"pullDiagnostic.onChange" 				*coc-config-pullDiagnostic-onChange*
+                                *coc-config-pullDiagnostic*
+    "pullDiagnostic.onChange"
+            *coc-config-pullDiagnostic-onChange*
+        Whether to pull for diagnostics on ¿document¿ change, default: `true`
 
-	Whether to pull for diagnostics on document change, default: `true`
+    "pullDiagnostic.onSave"
+            *coc-config-pullDiagnostic-onSave*
+        Whether to pull for diagnostics on document save, default: `false`
 
-"pullDiagnostic.onSave" 				*coc-config-pullDiagnostic-onSave*
+    "pullDiagnostic.workspace" 				*coc-config-pullDiagnostic-workspace*
 
-	Whether to pull for diagnostics on document save, default: `false`
+        Whether to pull for workspace diagnostics when possible,
+        default: `true`
 
-"pullDiagnostic.workspace" 				*coc-config-pullDiagnostic-workspace*
+    "pullDiagnostic.ignored" 				*coc-config-pullDiagnostic-ignored*
 
-	Whether to pull for workspace diagnostics when possible,
-	default: `true`
+        Minimatch patterns to match full filepath that should be ignored for pullDiagnostic.
+        Default:  `[]`
 
-"pullDiagnostic.ignored" 				*coc-config-pullDiagnostic-ignored*
-
-	Minimatch patterns to match full filepath that should be ignored for
-	pullDiagnostic. Default: `[]`
 
 ------------------------------------------------------------------------------
 Signature~
-							*coc-config-signature*
-"signature.enable"					*coc-config-signature-enable*
+                                *coc-config-signature*
+    "signature.enable"					*coc-config-signature-enable*
 
-	Enable signature help when trigger character typed. Requires service
-	restart on change, default: `true`
+        Enable signature help when trigger character typed.
+        Requires service restart on change,
+        default:
+        `true`
 
-"signature.floatConfig"					*coc-config-signature-floatConfig*
 
-	Configuration of floating window/popup for signature documents, see
-	|coc-config-float|.
+    "signature.floatConfig"					*coc-config-signature-floatConfig*
 
-"signature.triggerSignatureWait"			*coc-config-signature-triggerSignatureWait*
+        Configuration of floating window/popup for signature documents,
+        see  |coc-config-float|.
 
-	Timeout for signature request trigger (milliseconds), default: `500`.
-	Change to higher value for slow Language Servers.
+    "signature.triggerSignatureWait"			*coc-config-signature-triggerSignatureWait*
 
-"signature.target"					*coc-config-signature-target*
+        Timeout for signature request trigger
+        (milliseconds),
+        default:
+        `500`.
+        Change to higher value for slow Language Servers.
 
-	Target of signature help, use `"float"` when possible by default.
 
-	Valid options: ["float", "echo"]
+    "signature.target"					*coc-config-signature-target*
 
-"signature.preferShownAbove"				*coc-config-signature-preferShownAbove*
+        Target of signature help,
+        use `"float"` when possible by default.
 
-	Show signature help's floating window above cursor when possible.
-	Requires restart on change, default: `true`
+        Valid options: ["float", "echo"]
 
-"signature.hideOnTextChange"				*coc-config-signature-hideOnTextChange*
+    "signature.preferShownAbove"				*coc-config-signature-preferShownAbove*
 
-	Hide signature help's floating window when text changed. Requires
-	restart on change, default: `false`
+        Show signature help's floating window above cursor when possible.
+        Requires restart on change,
+        default:
+        `true`
+
+
+    "signature.hideOnTextChange"				*coc-config-signature-hideOnTextChange*
+
+
+        Hide signature help's floating window when text changed.
+        Requires restart on change,
+        default:  `false`
+
 
 ------------------------------------------------------------------------------
 Multiple cursors~
@@ -714,7 +731,7 @@ Workspace related~
 
 	Filetypes to ignore for workspace folder resolution, default: `[]`
 
-	Note: This is the filetype after mapping by `g:coc_filetype_map`.
+	This is the filetype after mapping by `g:coc_filetype_map`.
 
 "workspace.ignoredFolders"				*coc-config-workspace-ignoredFolders*
 
@@ -904,7 +921,7 @@ Preferences~
 	have highest priority, timeout is 500ms to avoid vim blocked for too
 	long time.
 
-	Note: This is the filetype after mapping by `g:coc_filetype_map`.
+	This is the filetype after mapping by `g:coc_filetype_map`.
 
 	Note since vim's autocmd not nested by default, coc.nvim may not
 	receive latest code when you're using other vim plugin to format
@@ -951,8 +968,8 @@ Preferences~
 	Filetypes that should run format on typing specific characters,
 	default: `[]`, requires `onTypeEdit` provider |CocHasProvider|.
 
-	Note: takes effect when `coc.preferences.formatOnType` set `true`.
-	Note: Use filetypes after mapped by `g:coc_filetype_map`.
+	Takes effect when `coc.preferences.formatOnType` set `true`.
+	Use filetypes after mapped by `g:coc_filetype_map`.
 
 "coc.preferences.floatActions"				*coc-preferences-floatActions*
 
@@ -967,7 +984,7 @@ Preferences~
 "coc.preferences.enableMarkdown"			*coc-preferences-enableMarkdown*
 
 	Tell the language server that markdown text format is supported,
-	note that you may have additional escaped characters for markdown
+	You may have additional escaped characters for markdown
 	text.
 
 "coc.preferences.silentAutoupdate"			*coc-preferences-silentAutoupdate*
@@ -992,7 +1009,7 @@ Semantic tokens~
 	Filetypes that should enable semantic tokens highlight feature. Use
 	`["*"]` for all filetypes, default: `[]`
 
-	Note: semantic tokens highlight requires nvim >= 0.5.0 and vim >=
+	Semantic tokens highlight requires nvim >= 0.5.0 and vim >=
 	8.1.0579 to work.
 
 "semanticTokens.highlightPriority"			*coc-config-semanticTokens-highlightPriority*
@@ -1173,12 +1190,12 @@ Languageserver~
 	- "enable": Change to `false` to disable that languageserver.
 
 	- "filetypes": Supported filetypes, add * in array for all filetypes.
-	  Note: it's required for start the languageserver, please make sure
+	  It's required for start the languageserver, please make sure
 	  your filetype is expected by `:CocCommand document.echoFiletype` command
 
 	- "additionalSchemes": Additional URI schemes, default schemes
 	  including file & untitled.
-	  Note: you have to setup vim provide content for custom URI as well.
+	  You have to setup vim provide content for custom URI as well.
 
 	- "cwd": Working directory used to start languageserver, vim's cwd is
 	  used by default.
@@ -1214,7 +1231,7 @@ Languageserver~
 
 	- "disabledFeatures": Disable features for this languageserver,
 	  valid keys:
->
+
 	  ["completion", "configuration", "workspaceFolders", "diagnostics",
 	  "willSave", "willSaveUntil", "didSaveTextDocument",
 	  "fileSystemWatcher", "hover", "signatureHelp", "definition",
@@ -1226,7 +1243,7 @@ Languageserver~
 	  "implementation", "declaration", "color", "foldingRange",
 	  "selectionRange", "progress", "callHierarchy", "linkedEditing",
 	  "fileEvents", "semanticTokens"]
-<
+
 	- "formatterPriority": Priority of this languageserver's formatter.
 
 	- "revealOutputChannelOn": Configure message level to show the output
@@ -1275,4 +1292,5 @@ Language server use initialized socket server:~
 	- "host": Host of socket server, default to `127.0.0.1`.
 
 ==============================================================================
-vim:tw=78:nosta:noet:ts=8:sts=0:ft=help:noet:fen:
+DIY_again
+DIY_2  vim:filetype=help:syntax=help:

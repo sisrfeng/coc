@@ -231,68 +231,78 @@ contributed by coc extensions, see |coc-config| for builtin configurations.
 ==============================================================================
 LSP FEATURES 						*coc-lsp*
 
-All features (except for telemetry) of LSP 3.16 are supported, checkout
-the specification at
-https://microsoft.github.io/language-server-protocol/specifications/specification-3-16/
 
-LSP features only works with attached document, see |coc-document-attached|.
+    All features
+    (except for telemetry)
+    of LSP 3.16 are supported,
+    checkout the specification at https://microsoft.github.io/language-server-protocol/specifications/specification-3-16/
 
-To check exists providers of current buffer, use command
-`:CocCommand document.checkBuffer` or |CocHasProvider()|.
 
-For historic reason, some features just works, but some are not.
+    LSP features only works with attached document,
+        see |coc-document-attached|.
 
-Features automatically work by default:~
 
-- Trigger completion |coc-completion|.
-- Diagnostics refresh |coc-diagnostics|.
-- Pull diagnostics |coc-pullDiagnostics|.
-- Trigger signature help |coc-signature|.
-- Inlay hints (only works with some coc extensions, but not
-  |coc-config-languageserver| yet).
+    To check exists providers of current buffer,
+    use command `:CocCommand document.checkBuffer` or |CocHasProvider()|.
 
-Note all features could be disabled/enabled by |coc-configuration| and some
-vim variables.
 
-Features require enabled by configuration:~
+    For historic reason,
+    some features just works,
+    but some are not.
 
-- Semantic highlights |coc-semantic-highlights|.
-- Document color highlights |coc-document-color|.
-- Code lens, enabled by |coc-config-codeLens-enable|.
-- Linked editing, enabled by |coc-preferences-enableLinkedEditing|.
-- Format on type, enabled by |coc-preferences-formatOnType|
-- Format on save, enabled by |coc-preferences-formatOnSaveFiletypes|.
+    Features automatically work by default:~
 
-Features requested by user:~
+        - Trigger completion |coc-completion|.
+        - Diagnostics refresh |coc-diagnostics|.
+        - Pull diagnostics |coc-pullDiagnostics|.
+        - Trigger signature help |coc-signature|.
+        - Inlay hints (only works with some coc extensions,
+                       but not  |coc-config-languageserver| yet).
 
-- Locations related (including definitions, references etc.) |coc-locations|
-- Invoke code action |coc-code-actions|.
-- Show call hierarchy tree |coc-callHierarchy|.
-- Format, range format and on type format |coc-format|.
-- Highlight same symbol ranges |coc-document-highlights|.
-- Outline of document symbols |coc-outline| and |coc-list-symbols|.
-- Show hover information |CocAction('doHover')| and |CocAction('definitionHover')|.
-- Rename symbol under cursor |CocAction('rename')|.
-- Open link under cursor |CocAction('openlink')|.
-- Range selection |CocAction('rangeSelect').|
-- Create folds |CocAction('fold')|.
 
-For convenient, some actions have associated |coc-key-mappings| provided.
-Prefer |CocAction()| for more options.
+        Note all features could be disabled/enabled by
+        |coc-configuration| and some vim variables.
 
-Features triggered by languageserver or extension:~
 
-- Show message notification.
-- Show message request.
-- Log message (use `:CocCommand workspace.showOutput` to show output).
-- Show document request.
-- Work done progress.
+    Features require enabled by configuration:~
 
-To make coc.nvim provide LSP features for your languages, checkout
-https://github.com/neoclide/coc.nvim/wiki/Language-servers
+    - Semantic highlights |coc-semantic-highlights|.
+    - Document color highlights |coc-document-color|.
+    - Code lens, enabled by |coc-config-codeLens-enable|.
+    - Linked editing, enabled by |coc-preferences-enableLinkedEditing|.
+    - Format on type, enabled by |coc-preferences-formatOnType|
+    - Format on save, enabled by |coc-preferences-formatOnSaveFiletypes|.
 
-To debug issues with languageserver, checkout
-https://github.com/neoclide/coc.nvim/wiki/Debug-language-server
+    Features requested by user:~
+
+    - Locations related (including definitions, references etc.) |coc-locations|
+    - Invoke code action |coc-code-actions|.
+    - Show call hierarchy tree |coc-callHierarchy|.
+    - Format, range format and on type format |coc-format|.
+    - Highlight same symbol ranges |coc-document-highlights|.
+    - Outline of document symbols |coc-outline| and |coc-list-symbols|.
+    - Show hover information |CocAction('doHover')| and |CocAction('definitionHover')|.
+    - Rename symbol under cursor |CocAction('rename')|.
+    - Open link under cursor |CocAction('openlink')|.
+    - Range selection |CocAction('rangeSelect').|
+    - Create folds |CocAction('fold')|.
+
+    For convenient, some actions have associated |coc-key-mappings| provided.
+    Prefer |CocAction()| for more options.
+
+    Features triggered by languageserver or extension:~
+
+    - Show message notification.
+    - Show message request.
+    - Log message (use `:CocCommand workspace.showOutput` to show output).
+    - Show document request.
+    - Work done progress.
+
+    To make coc.nvim provide LSP features for your languages, checkout
+    https://github.com/neoclide/coc.nvim/wiki/Language-servers
+
+    To debug issues with languageserver, checkout
+    https://github.com/neoclide/coc.nvim/wiki/Debug-language-server
 
 ==============================================================================
 
@@ -352,7 +362,6 @@ COMPLETION						*coc-completion*
 
     The builtin completion of vim is no longer used,
     the default completion behavior works like VSCode:
-
 
         - Completion is automatically triggered by default.
         - Item selection is enabled by default,
@@ -2152,17 +2161,20 @@ Key mappings						*coc-key-mappings*
 
     "doHover" [{hoverTarget}]				*CocAction('doHover')*
 
-        Show documentation of  current symbol, return `v:false` when hover not
-        found.
 
-        {hoverTarget}: optional specification for where to show hover info,
-        defaults to `coc.preferences.hoverTarget` in `coc-settings.json`.
-        Valid options: ["preview", "echo", "float"]
+        Show documentation of
+        current symbol,
+        return `v:false` when hover not found.
 
-    "definitionHover" [{hoverTarget}]			*CocAction('definitionHover')*
+        {hoverTarget}:
+            optional specification for where to show hover info,
+            defaults to `coc.preferences.hoverTarget` in `coc-settings.json`.
+            Valid options: ["preview", "echo", "float"]
 
-        Same as |CocAction('doHover')|, but includes definition contents from
-        definition provider when possible.
+    "definitionHover" [{hoverTarget}]
+            *CocAction('definitionHover')*
+        Same as |CocAction('doHover')|,
+        but includes definition contents from  definition provider when possible.
 
     "showSignatureHelp"					*CocAction('showSignatureHelp')*
 
@@ -2696,194 +2708,188 @@ HIGHLIGHTS						*coc-highlights*
 
     To customize a highlight, simply use |:highlight| command in your vimrc, like:
 
-        " make error texts have a red color
-        highlight CocErrorHighlight ctermfg=Red  guifg=#ff0000
+            " make error texts have a red color
+            highlight CocErrorHighlight ctermfg=Red  guifg=#ff0000
 
-    Type |:highlight| command with group name to check current highlight.
+        Type |:highlight| command with group name to check current highlight.
 
-    Don't use `:hi default` for overwriting the highlights.
-
-    User defined highlight commands should appear after the |:colorscheme|
-    command and use |ColorScheme| autocmd to make sure customized highlights works
-    after color scheme change.
+        User defined highlight commands should appear after the |:colorscheme| command and
+        use |ColorScheme| autocmd to
+            make sure customized highlights works after color scheme change.
 
     Markdown related~
 
-    *CocBold* for bold text.
-    *CocItalic* for italic text.
-    *CocUnderline* for underlined text.
-    *CocStrikeThrough* for strikethrough text, like usage of deprecated API.
-    *CocMarkdownCode* for inline code in markdown content.
-    *CocMarkdownHeader* for markdown header in floating window/popup.
-    *CocMarkdownLink* for markdown link text in floating window/popup.
+        *CocBold*           for bold text.
+        *CocItalic*         for italic text.
+        *CocUnderline*      for underlined text.
+        *CocStrikeThrough*  for strikethrough text, like usage of deprecated API.
+        *CocMarkdownCode*   for inline code in markdown content.
+        *CocMarkdownHeader* for markdown header in floating window/popup.
+        *CocMarkdownLink*   for markdown link text in floating window/popup.
 
     Diagnostics related~
                                 *coc-highlights-diagnostics*
+        *CocFadeOut*                                  for faded out text, such as for highlighting unnecessary code.
+        *CocErrorSign*                                for error signs.
+        *CocWarningSign*                              for warning signs.
+        *CocInfoSign*                                 for information signs.
+        *CocHintSign*                                 for hint signs.
+        *CocErrorVirtualText*                         for error virtual text.
+        *CocWarningVirtualText*                       for warning virtual text.
+        *CocInfoVirtualText*                          for information virtual text.
+        *CocHintVirtualText*                          for hint virtual text.
+        *CocErrorHighlight*                           for error code range.
+        *CocWarningHighlight*                         for warning code range.
+        *CocInfoHighlight*                            for information code range.
+        *CocHintHighlight*                            for hint code range.
+        *CocDeprecatedHighlight*                      for deprecated code range, links to  |CocStrikeThrough| by default.
+        *CocUnusedHighlight*                          for unnecessary code range, links to |CocFadeOut| by  default.
+        *CocErrorLine*   line highlight of sign which contains error.
+        *CocWarningLine*
+        *CocInfoLine*
+        *CocHintLine*
 
-    *CocFadeOut* for faded out text, such as for highlighting unnecessary code.
-    *CocErrorSign* for error signs.
-    *CocWarningSign* for warning signs.
-    *CocInfoSign* for information signs.
-    *CocHintSign* for hint signs.
-    *CocErrorVirtualText* for error virtual text.
-    *CocWarningVirtualText* for warning virtual text.
-    *CocInfoVirtualText* for information virtual text.
-    *CocHintVirtualText* for hint virtual text.
-    *CocErrorHighlight* for error code range.
-    *CocWarningHighlight* for warning code range.
-    *CocInfoHighlight* for information code range.
-    *CocHintHighlight* for hint code range.
-    *CocDeprecatedHighlight* for deprecated code range, links to
-    |CocStrikeThrough| by default.
-    *CocUnusedHighlight* for unnecessary code range, links to |CocFadeOut| by
-    default.
-    *CocErrorLine* line highlight of sign which contains error.
-    *CocWarningLine* line highlight of sign which contains warning.
-    *CocInfoLine* line highlight of sign which information.
-    *CocHintLine* line highlight of sign which contains hint.
+        Highlight with higher priority would overwrite highlight with lower priority.
+        The priority order:
 
-    Highlight with higher priority would overwrite highlight with lower priority.
-    The priority order:
-
-        |CocUnusedHighlight| > |CocDeprecatedHighlight| > |CocErrorHighlight|
-        > |CocWarningHighlight| > |CocInfoHighlight| > |CocHintHighlight|
+            |CocUnusedHighlight| > |CocDeprecatedHighlight| > |CocErrorHighlight|
+            > |CocWarningHighlight| > |CocInfoHighlight| > |CocHintHighlight|
 
     Document highlight related~
-                                *coc-highlights-document*
+            *coc-highlights-document*
+        Highlights used for highlighting same symbols in the buffer
+        at the current cursor position.
 
-    Highlights used for highlighting same symbols in the buffer at the current
-    cursor position.
-
-    *CocHighlightText* default symbol highlight.
-    *CocHighlightRead* for `Read` kind of document symbol.
-    *CocHighlightWrite* for `Write` kind of document symbol.
+        *CocHighlightText* default symbol highlight.
+        *CocHighlightRead* for `Read` kind of document symbol.
+        *CocHighlightWrite* for `Write` kind of document symbol.
 
     Float window/popup related~
 
-    *CocFloating* default highlight group of floating windows/popups.
-    Default links to |NormalFloat| on neovim and|`Pmenu| on vim.
-    *CocFloatDividingLine* for dividing lines, links to |NonText| by default.
-    *CocErrorFloat* for errors in floating windows/popups.
-    *CocWarningFloat* for warnings in floating windows/popups.
-    *CocInfoFloat* for infos in floating windows/popups.
-    *CocHintFloat* for hints in floating windows/popups.
+        *CocFloating*   floating windows/popups.  Default links to |NormalFloat| on neovim
+        *CocFloatDividingLine* for dividing lines,  links to |NonText| by default.
+        *CocErrorFloat*
+        *CocWarningFloat*
+        *CocInfoFloat*
+        *CocHintFloat*
 
     Notification window/popup related~
 
         CocNotification 					*CocNotification*
 
-        *CocNotificationProgress* for progress line in progress notification.
-        *CocNotificationButton* for action buttons in notification window.
-        *CocNotificationError* for highlight border of error notification.
-        *CocNotificationWarning* for highlight border of warning notification.
-        *CocNotificationInfo* for highlight border of info notification.
+        *CocNotificationProgress*        progress line in progress notification.
+        *CocNotificationButton*        action buttons in notification window.
+        *CocNotificationError*        highlight border of error notification.
+        *CocNotificationWarning*        highlight border of warning notification.
+        *CocNotificationInfo*        highlight border of info notification.
 
     List related~
                                 *coc-highlights-list*
 
-    *CocListLine* for current cursor line.
-    *CocListSearch* for matched characters.
-    *CocListMode* for mode text in the statusline.
-    *CocListPath* for cwd text in the statusline.
-    *CocSelectedText* for sign text of selected lines (multiple selection only).
-    *CocSelectedLine* for line highlight of selected lines (multiple selection only).
+        *CocListLine*        current cursor line.
+        *CocListSearch*        matched characters.
+        *CocListMode*        mode text in the statusline.
+        *CocListPath*        cwd text in the statusline.
+        *CocSelectedText*        sign text of selected lines (multiple selection only).
+        *CocSelectedLine*        line highlight of selected lines (multiple selection only).
 
     Tree view related~
 
-    CocTree 						*CocTree*
+        CocTree 						*CocTree*
 
-    *CocTreeTitle* for title in tree view.
-    *CocTreeDescription* for description beside label.
-    *CocTreeOpenClose* for open and close icon in tree view.
-    *CocTreeSelected* for highlight lines contains selected node.
+        *CocTreeTitle*        title in tree view.
+        *CocTreeDescription*        description beside label.
+        *CocTreeOpenClose*        open and close icon in tree view.
+        *CocTreeSelected*        highlight lines contains selected node.
 
     Popup menu related~
                                 *CocPum*
-    *CocPumSearch* for matched input characters, linked to |CocSearch| by default.
-    *CocPumMenu* for menu of complete item.
-    *CocPumShortcut* for shortcut text of source.
-    *CocPumDeprecated* for deprecated label.
-    *CocPumVirtualText* for virtual text which enabled by
-    |coc-config-suggest-virtualText|
+        *CocPumSearch*        matched input characters, linked to |CocSearch| by default.
+        *CocPumMenu*        menu of complete item.
+        *CocPumShortcut*        shortcut text of source.
+        *CocPumDeprecated*        deprecated label.
+        *CocPumVirtualText*        virtual text which enabled by
+        |coc-config-suggest-virtualText|
 
     Symbol icons~
 
-    CocSymbol 						*CocSymbol*
+        CocSymbol 						*CocSymbol*
 
-    Highlight groups for symbol icons, including `CompletionItemKind` and
-    `SymbolKind` of LSP.  The highlight groups link to related |nvim-treesitter|
-    highlight groups when possible and fallback to builtin highlight groups.
+        Highlight groups for symbol icons,
+            including `CompletionItemKind` and `SymbolKind` of LSP.
+        The highlight groups link to related |nvim-treesitter| highlight groups when possible and
+            fallback to builtin highlight groups.
 
-    *CocSymbolDefault* linked to |hl-MoreMsg| by default.
-    *CocSymbolText*
-    *CocSymbolUnit*
-    *CocSymbolValue*
-    *CocSymbolKeyword*
-    *CocSymbolSnippet*
-    *CocSymbolColor*
-    *CocSymbolReference*
-    *CocSymbolFolder*
-    *CocSymbolFile*
-    *CocSymbolModule*
-    *CocSymbolNamespace*
-    *CocSymbolPackage*
-    *CocSymbolClass*
-    *CocSymbolMethod*
-    *CocSymbolProperty*
-    *CocSymbolField*
-    *CocSymbolConstructor*
-    *CocSymbolEnum*
-    *CocSymbolInterface*
-    *CocSymbolFunction*
-    *CocSymbolVariable*
-    *CocSymbolConstant*
-    *CocSymbolString*
-    *CocSymbolNumber*
-    *CocSymbolBoolean*
-    *CocSymbolArray*
-    *CocSymbolObject*
-    *CocSymbolKey*
-    *CocSymbolNull*
-    *CocSymbolEnumMember*
-    *CocSymbolStruct*
-    *CocSymbolEvent*
-    *CocSymbolOperator*
-    *CocSymbolTypeParameter*
+        *CocSymbolDefault* linked to |hl-MoreMsg| by default.
+        *CocSymbolText*
+        *CocSymbolUnit*
+        *CocSymbolValue*
+        *CocSymbolKeyword*
+        *CocSymbolSnippet*
+        *CocSymbolColor*
+        *CocSymbolReference*
+        *CocSymbolFolder*
+        *CocSymbolFile*
+        *CocSymbolModule*
+        *CocSymbolNamespace*
+        *CocSymbolPackage*
+        *CocSymbolClass*
+        *CocSymbolMethod*
+        *CocSymbolProperty*
+        *CocSymbolField*
+        *CocSymbolConstructor*
+        *CocSymbolEnum*
+        *CocSymbolInterface*
+        *CocSymbolFunction*
+        *CocSymbolVariable*
+        *CocSymbolConstant*
+        *CocSymbolString*
+        *CocSymbolNumber*
+        *CocSymbolBoolean*
+        *CocSymbolArray*
+        *CocSymbolObject*
+        *CocSymbolKey*
+        *CocSymbolNull*
+        *CocSymbolEnumMember*
+        *CocSymbolStruct*
+        *CocSymbolEvent*
+        *CocSymbolOperator*
+        *CocSymbolTypeParameter*
 
-    Use configuration |coc-config-suggest-completionItemKindLabels| for customized icon
-    characters.
+        Use configuration |coc-config-suggest-completionItemKindLabels|
+            for customized icon  characters.
 
     Semantic token highlight groups~
                                     *CocSem*
 
-    Semantic highlight groups are starts with `CocSem` which link to related
-    |nvim-treesitter| highlight groups when possible and fallback to builtin
-    highlight groups, use variable |g:coc_default_semantic_highlight_groups| to
-    disable creation of these highlight groups.
+        Semantic highlight groups are starts with `CocSem` which link to related
+        |nvim-treesitter| highlight groups when possible and fallback to builtin
+        highlight groups, use variable |g:coc_default_semantic_highlight_groups| to
+        disable creation of these highlight groups.
 
-    Only semantic tokens types and `deprecated` modifier have default
-    highlight groups.
+        Only semantic tokens types and `deprecated` modifier have default
+        highlight groups.
 
-    You need create highlight groups for highlight other modifiers and/or specific
-    modifier with type, for example:
+        You need create highlight groups for highlight other modifiers and/or specific
+        modifier with type, for example:
 
-        " Add highlights for defaultLibrary modifier
-        hi link CocSemDefaultLibrary TSOtherDefaultLibrary
-        hi link CocSemDefaultLibraryClass TSTypeDefaultLibrary
-        hi link CocSemDefaultLibraryInterface TSTypeDefaultLibrary
-        hi link CocSemDefaultLibraryEnum TSTypeDefaultLibrary
-        hi link CocSemDefaultLibraryType TSTypeDefaultLibrary
-        hi link CocSemDefaultLibraryNamespace TSTypeDefaultLibrary
+            " Add highlights for defaultLibrary modifier
+            hi link CocSemDefaultLibrary TSOtherDefaultLibrary
+            hi link CocSemDefaultLibraryClass TSTypeDefaultLibrary
+            hi link CocSemDefaultLibraryInterface TSTypeDefaultLibrary
+            hi link CocSemDefaultLibraryEnum TSTypeDefaultLibrary
+            hi link CocSemDefaultLibraryType TSTypeDefaultLibrary
+            hi link CocSemDefaultLibraryNamespace TSTypeDefaultLibrary
 
-        " Add highlights for declaration modifier
-        hi link CocSemDeclaration TSOtherDeclaration
-        hi link CocSemDeclarationClass TSTypeDeclaration
-        hi link CocSemDeclarationInterface TSTypeDeclaration
-        hi link CocSemDeclarationEnum TSTypeDeclaration
-        hi link CocSemDeclarationType TSTypeDeclaration
-        hi link CocSemDeclarationNamespace TSTypeDeclaration
+            " Add highlights for declaration modifier
+            hi link CocSemDeclaration TSOtherDeclaration
+            hi link CocSemDeclarationClass TSTypeDeclaration
+            hi link CocSemDeclarationInterface TSTypeDeclaration
+            hi link CocSemDeclarationEnum TSTypeDeclaration
+            hi link CocSemDeclarationType TSTypeDeclaration
+            hi link CocSemDeclarationNamespace TSTypeDeclaration
 
-    The modifier highlight groups have higher priority.
+        The modifier highlight groups have higher priority.
 
     Others~
 
@@ -2897,8 +2903,7 @@ HIGHLIGHTS						*coc-highlights*
         background color).
         *CocSelectedRange* for highlight ranges of outgoing calls.
         *CocSnippetVisual* for highlight snippet placeholders.
-        *CocInlayHint* for highlight inlay hint virtual text block, default linked to
-        |CocHintSign|
+        *CocInlayHint* for highlight inlay hint virtual text block, default linked to  |CocHintSign|
 
 ==============================================================================
 TREE SUPPORT 						*coc-tree*

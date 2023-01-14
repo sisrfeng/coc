@@ -1,0 +1,1833 @@
+*coc-nvim.txt*					NodeJS client for Vim & Neovim.
+
+Version: 0.0.82
+Author: Qiming Zhao <chemzqm at gmail.com>
+License: Anti 996 license
+
+CONTENTS					*coc-contents*
+
+Introduction					|coc-introduction|
+Requirements					|coc-requirements|
+Installation					|coc-installation|
+Extensions 					|coc-extensions|
+Configuration					|coc-configuration|
+LSP features 					|coc-lsp|
+  Document 					|coc-document|
+  Completion					|coc-completion|
+  Diagnostics 					|coc-diagnostics|
+  Pull diagnostics 				|coc-pullDiagnostics|
+  Locations 					|coc-locations|
+  Signature help 				|coc-signature|
+  Format 					|coc-format|
+  Code action 					|coc-code-actions|
+  Document highlights 				|coc-document-highlights|
+  Document color 				|coc-document-color|
+  Snippets 					|coc-snippets|
+  Workspace					|coc-workspace|
+  Cursors 					|coc-cursors|
+  Outline 					|coc-outline|
+  Call hierarchy 				|coc-callHierarchy|
+  Semantic highlights 				|coc-semantic-highlights|
+Interface					|coc-interface|
+  Key mappings					|coc-key-mappings|
+  Variables					|coc-variables|
+    Buffer variables 				|coc-buffer-variables|
+    Global variables 				|coc-global-variables|
+  Functions					|coc-functions|
+  Commands					|coc-commands|
+  Autocmds					|coc-autocmds|
+  Highlights					|coc-highlights|
+Tree 						|coc-tree|
+  Tree mappings 				|coc-tree-mappings|
+  Tree filter 					|coc-tree-filter|
+List						|coc-list|
+  List command					|coc-list-command|
+  List command options 				|coc-list-options|
+  List configuration				|coc-list-configuration|
+  List mappings					|coc-list-mappings|
+  list sources					|coc-list-sources|
+Dialog 						|coc-dialog|
+  Dialog basic 					|coc-dialog-basic|
+  Dialog confirm  				|coc-dialog-confirm|
+  Dialog input 					|coc-dialog-input|
+  Dialog menu 					|coc-dialog-menu|
+  Dialog picker                                 |coc-dialog-picker|
+Notification					|coc-notification|
+Statusline integration				|coc-status|
+  Manual					|coc-status-manual|
+  Airline					|coc-status-airline|
+  Lightline					|coc-status-lightline|
+FAQ						|coc-faq|
+Changelog					|coc-changelog|
+
+==============================================================================
+INTRODUCTION						*coc-introduction*
+
+Coc.nvim enhances your (Neo)Vim to match the user experience provided by  VSCode
+through a rich extension ecosystem
+and implemented features of
+    Language  Server Protocol (3.16 for now).
+
+Some of its key features include:~
+
+    - APIs compatible with both Vim8 and Neovim.
+    - Loading VSCode-like extensions.
+    - Configuring coc.nvim and its extensions with JSON configuration  |coc-configuration|.
+    - Configuring Language Servers
+        that using Language Server Protocol (LSP)  |coc-config-languageserver|.
+
+It is designed for best possible integration with other Vim plugins.
+
+This plugin doesn't come with support for any specific language.
+    You will need to install a coc.nvim extension or
+    set up the language server by  configuration.
+
+
+Multiple language servers for same document is allowed,
+but you should  avoid
+    configuring the same language servers  already used by coc.nvim extension.
+
+Automatic completion plugins (coc和YMC等打架? 这里教人禁用coc的suggest?)
+can't play nicely together,
+you can disable  automatic completion of coc.nvim through
+         `"suggest.autoTrigger": "none"`
+    (or  `"suggest.autoTrigger": "trigger"`) in your configuration file.
+
+==============================================================================
+REQUIREMENTS						*coc-requirements*
+
+    Neovim >= 0.4.0 or Vim >= 8.1.1719.
+
+    NodeJS https://nodejs.org/ >= 14.14.0.
+
+    Yarn https://yarnpkg.com/ required to build coc.nvim from typescript source  code.
+
+==============================================================================
+INSTALLATION						*coc-installation*
+
+If you're using [vim-plug](https://github.com/junegunn/vim-plug), add this to
+your `init.vim` or `.vimrc`:
+
+
+  Plug 'neoclide/coc.nvim', {'branch': 'release'}
+
+And run:
+
+
+  :PlugInstall
+
+For other plugin managers, make sure to use code from the release branch.
+
+To use Vim's native |packages| on Linux or MaxOS, use script like:
+
+
+  #!/bin/sh
+  # for vim8
+  mkdir -p ~/.vim/pack/coc/start
+  cd ~/.vim/pack/coc/start
+  curl --fail -L https://github.com/neoclide/coc.nvim/archive/release.tar.gz|tar xzfv -
+  vim -c 'helptags ~/.vim/pack/coc/start/doc|q'
+
+  # for neovim
+  mkdir -p ~/.local/share/nvim/site/pack/coc/start
+  cd ~/.local/share/nvim/site/pack/coc/start
+  curl --fail -L https://github.com/neoclide/coc.nvim/archive/release.tar.gz|tar xzfv -
+  nvim -c 'helptags ~/.local/share/nvim/site/pack/coc/start|q'
+
+when using source code of coc.nvim, you'll have to install
+https://yarnpkg.com/ and run `yarn install` in project root of coc.nvim.
+
+==============================================================================
+EXTENSIONS						*coc-extensions*
+
+To provide LSP features for buffers, the user have to config
+|coc-config-languageserver| or install coc extensions.
+
+Coc extensions are more powerful since they could contribute json schemes,
+commands, and use middleware methods of languageserver to provide better
+results.  It's also possible to provide features that not part of LSP.
+
+Install extensions from git (not recommended):~
+
+- Download to code by `git clone` command.
+- In project root, install dependencies and compile the code by `yarn install`
+  (needed by most coc extensions).
+- Add the project root to vim's runtimepath by `set runtimepath^=/path/to/project`
+
+Plugin manager like [vim-plug] can be used as well.
+
+Use coc extensions from source code requires install dependencies which
+may take huge disk usage.
+
+Install global extensions from npm (recommended):~
+
+Use |:CocInstall| to install coc extensions from vim's command line.
+
+To make coc.nvim install extensions on startup, use |g:coc_global_extensions|.
+
+To use package manager other than npm (like `yarn` or `pnpm`), use
+|coc-config-npm-binPath|.
+
+To customize npm registry for coc.nvim add `coc.nvim:registry` in your
+`~/.npmrc`, like:
+
+	coc.nvim:registry=https://registry.mycompany.org/
+
+To customize extensions folder, user |g:coc_data_home|.
+
+Uninstall global extensions:~
+
+Use |:CocUninstall|.
+
+Update global extensions:~
+
+Use |:CocUpdate| or |:CocUpdateSync|.
+
+To update extensions automatically, config |coc-preferences-extensionUpdateCheck|.
+
+Manage extensions list:~
+
+Use |coc-list-extensions| or other list plugin that request extensions list by
+|CocAction('extensionStats')|.
+
+Single file extensions:~
+
+All Javascript files that ends with `.js` inside the folder
+|g:coc_config_home| + '/coc-extensions' are considered as coc extensions, for
+example:
+
+  const {window} = require('coc.nvim')
+
+  exports.activate = context => {
+    window.showInformationMessage("message from extension")
+  }
+
+==============================================================================
+CONFIGURATION						*coc-configuration*
+
+The configuration of coc.nvim is stored in file `coc-settings.json`.
+
+Command |:CocConfig| will open (create when necessary) a user settings
+file in the folder returned by |coc#util#get_config_home()|.
+
+To create a local configuration file for a specific workspace, use
+|:CocLocalConfig|.
+
+The global configuration file can be created in another directory by setting
+`g:coc_config_home` in your `.vimrc` or `init.vim`:
+
+
+	let g:coc_config_home = '/path/to/folder'
+
+The configuration files are all in JSON format (with comment supported), it's
+recommended to enable JSON completion and validation by install the `coc-json`
+extension:
+
+
+	:CocInstall coc-json
+
+The user configuration can also be changed by |coc#config()|.
+
+Configurations are composed with builtin configurations and configurations
+contributed by coc extensions, see |coc-config| for builtin configurations.
+
+==============================================================================
+LSP FEATURES 						*coc-lsp*
+
+
+    All features
+    (except for telemetry)
+    of LSP 3.16 are supported,
+    checkout the specification at https://microsoft.github.io/language-server-protocol/specifications/specification-3-16/
+
+
+    LSP features only works with attached document,
+        see |coc-document-attached|.
+
+
+    To check exists providers of current buffer,
+    use command `:CocCommand document.checkBuffer` or |CocHasProvider()|.
+
+
+    For historic reason,
+    some features just works,
+    but some are not.
+
+    Features automatically work by default:~
+
+        - Trigger completion |coc-completion|.
+        - Diagnostics refresh |coc-diagnostics|.
+        - Pull diagnostics |coc-pullDiagnostics|.
+        - Trigger signature help |coc-signature|.
+        - Inlay hints (only works with some coc extensions,
+                       but not  |coc-config-languageserver| yet).
+
+
+        Note all features could be disabled/enabled by
+        |coc-configuration| and some vim variables.
+
+
+    Features require enabled by configuration:~
+
+    - Semantic highlights |coc-semantic-highlights|.
+    - Document color highlights |coc-document-color|.
+    - Code lens, enabled by |coc-config-codeLens-enable|.
+    - Linked editing, enabled by |coc-preferences-enableLinkedEditing|.
+    - Format on type, enabled by |coc-preferences-formatOnType|
+    - Format on save, enabled by |coc-preferences-formatOnSaveFiletypes|.
+
+    Features requested by user:~
+
+    - Locations related (including definitions, references etc.) |coc-locations|
+    - Invoke code action |coc-code-actions|.
+    - Show call hierarchy tree |coc-callHierarchy|.
+    - Format, range format and on type format |coc-format|.
+    - Highlight same symbol ranges |coc-document-highlights|.
+    - Outline of document symbols |coc-outline| and |coc-list-symbols|.
+    - Show hover information |CocAction('doHover')| and |CocAction('definitionHover')|.
+    - Rename symbol under cursor |CocAction('rename')|.
+    - Open link under cursor |CocAction('openlink')|.
+    - Range selection |CocAction('rangeSelect').|
+    - Create folds |CocAction('fold')|.
+
+    For convenient, some actions have associated |coc-key-mappings| provided.
+    Prefer |CocAction()| for more options.
+
+    Features triggered by languageserver or extension:~
+
+    - Show message notification.
+    - Show message request.
+    - Log message (use `:CocCommand workspace.showOutput` to show output).
+    - Show document request.
+    - Work done progress.
+
+    To make coc.nvim provide LSP features for your languages, checkout
+    https://github.com/neoclide/coc.nvim/wiki/Language-servers
+
+    To debug issues with languageserver, checkout
+    https://github.com/neoclide/coc.nvim/wiki/Debug-language-server
+
+==============================================================================
+
+DOCUMENT 						*coc-document*
+帮助文档?
+
+    An associated document is created on buffer create,
+    and disposed on buffer unload.
+
+
+    Attached document:~
+                                    *coc-document-attached*
+
+        An attached document means
+            coc.nvim synchronize
+                the lines of vim's buffer
+                with associated document automatically.
+
+        Only attached documents are synchronized with language servers and
+        therefore LSP features could be provided for the attached buffer.
+
+        The buffer may not be attached by following reasons:
+
+            - The 'buftype' is neither <empty> nor 'acwrite'.
+            - Buffer variable |b:coc_enabled| is `0`.
+            - Byte length of buffer exceed |coc-preferences-maxFileSize|.
+            - Buffer is used for command line window.
+
+        Use |CocAction('ensureDocument')| or `:CocCommand document.checkBuffer` to
+        check attached state of current buffer.
+
+
+    Filetype map:~
+                                *coc-document-filetype*
+
+
+        Some filetypes are mapped to others to
+        match the languageId used by VSCode,
+        including:
+
+
+            - javascript.jsx -> javascriptreact
+            - typescript.jsx -> typescriptreact
+            - typescript.tsx -> typescriptreact
+            - tex -> latex
+
+        Use |g:coc_filetype_map| to create additional filetype maps.
+
+
+        Use `:CocCommand document.echoFiletype` to echo mapped filetype of current document.
+
+        Make sure use mapped filetypes for configurations that expect filetypes.
+
+==============================================================================
+COMPLETION						*coc-completion*
+
+    The builtin completion of vim is no longer used,
+    the default completion behavior works like VSCode:
+
+        - Completion is automatically triggered by default.
+        - Item selection is enabled by default,
+            use |coc-config-suggest-noselect| to
+        disable default selection.
+        - When selection enabled and no preselect item exists,
+            recent used item that  matched will be selected by default.
+        - Snippet and additional edits only work after confirm completion.
+        - 'completeopt' is not used and
+        APIs of builtin popupmenu not work.
+
+    Default Key-mappings:~
+
+        To make the completion work like builtin completion
+        without configuration,
+        following key-mappings are used when the {lhs}
+        is not mapped:
+
+
+        Use <C-n>, <C-p>, <up> and <down> to navigate completion list:
+
+
+        inoremap <silent><expr> <C-n> coc#pum#visible() ? coc#pum#next(1) : "\<C-n>"
+        inoremap <silent><expr> <C-p> coc#pum#visible() ? coc#pum#prev(1) : "\<C-p>"
+        inoremap <silent><expr> <down> coc#pum#visible() ? coc#pum#next(0) : "\<down>"
+        inoremap <silent><expr> <up> coc#pum#visible() ? coc#pum#prev(0) : "\<up>"
+
+        Use <PageDown> and <PageUp> to scroll:
+
+
+        inoremap <silent><expr> <PageDown> coc#pum#visible() ? coc#pum#scroll(1) : "\<PageDown>"
+        inoremap <silent><expr> <PageUp> coc#pum#visible() ? coc#pum#scroll(0) : "\<PageUp>"
+
+        Use <C-e> and <C-y> to cancel and confirm completion:
+
+
+        inoremap <silent><expr> <C-e> coc#pum#visible() ? coc#pum#cancel() : "\<C-e>"
+        inoremap <silent><expr> <C-y> coc#pum#visible() ? coc#pum#confirm() : "\<C-y>"
+
+        <CR> and <Tab> are not remapped by coc.nvim.
+
+    Related variables:~
+
+        - Disable completion for buffer: |b:coc_suggest_disable|
+        - Disable specific sources for buffer: |b:coc_disabled_sources|
+        - Disable words for trigger completion: |b:coc_suggest_blacklist|
+        - Add additional keyword characters: |b:coc_additional_keywords|
+
+    Related functions:~
+
+        - Trigger completion with options: |coc#start()|.
+        - Trigger completion refresh: |coc#refresh()|.
+        - Select and confirm completion: |coc#_select_confirm()|.
+        - Check if customized popupmenu is visible: |coc#pum#visible()|.
+        - Select next complete item: |coc#pum#next()|.
+        - Select previous complete item: |coc#pum#prev()|.
+        - Cancel completion and reset trigger text: |coc#pum#cancel()|.
+        - Confirm completion: |coc#pum#confirm()|.
+        - Close the popupmenu only: |coc#pum#stop()|.
+        - Get information of the popupmenu: |coc#pum#info()|.
+        - Select specific complete item: |coc#pum#select()|.
+        - Insert word of selected item and finish completion: |coc#pum#insert()|.
+        - Scroll popupmenu: |coc#pum#scroll()|.
+
+    Customize completion:~
+
+        Use |coc-config-suggest| to change behavior of completion.
+
+        Use 'pumwidth' for configure minimal width of popupmenu and 'pumheight'
+        for maximum height.
+
+        Related Highlight groups:
+            |CocPum| 	for highlight groups of customized pum.
+            |CocSymbol| 	for kind icons.
+            |CocMenuSel| 	for background highlight of selected item.
+
+        Background, border and winblend are configured by
+        |coc-config-suggest-floatConfig|.
+
+    Example user key-mappings:~
+                                *coc-completion-example*
+
+        Use command `:verbose imap` to check current insert
+        key-mappings when your key-mappings not work.
+
+        Use <tab> and <S-tab> to navigate completion list:
+
+            function! CheckBackSpace() abort
+                let col = col('.') - 1
+                return !col || getline('.')[col - 1]  =~ '\s'
+            endfunction
+
+            " Insert <tab> when previous text is space, refresh completion if not.
+            inoremap <silent><expr> <TAB>
+                \ coc#pum#visible() ? coc#pum#next(1):
+                \ CheckBackSpace() ? "\<Tab>" :
+                \ coc#refresh()
+            inoremap <expr><S-TAB> coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"
+
+
+        Use <c-space> to trigger completion:
+
+            if has('nvim')
+                inoremap <silent><expr> <c-space> coc#refresh()
+            else
+                inoremap <silent><expr> <c-@> coc#refresh()
+            endif
+
+        Use <CR> to confirm completion, use:
+
+            inoremap <expr> <cr> coc#pum#visible() ? coc#_select_confirm() : "\<CR>"
+
+        To make <CR> to confirm selection of selected complete item or
+        notify coc.nvim  to format on enter:
+
+
+            inoremap <silent><expr> <CR> coc#pum#visible() ? coc#_select_confirm()
+                            \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+
+        Map <tab> for
+            trigger completion, completion confirm, snippet expand and jump  like VSCode:
+
+
+            inoremap <silent><expr> <TAB>
+                \ coc#pum#visible() ? coc#_select_confirm() :
+                \ coc#expandableOrJumpable() ?
+                \ "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
+                \ CheckBackSpace() ? "\<TAB>" :
+                \ coc#refresh()
+
+            function! CheckBackSpace() abort
+                let col = col('.') - 1
+                return !col || getline('.')[col - 1]  =~# '\s'
+            endfunction
+
+            let g:coc_snippet_next = '<tab>'
+
+        The `coc-snippets` extension is required for this to work.
+
+==============================================================================
+DIAGNOSTICS SUPPORT 					*coc-diagnostics*
+
+Diagnostics of coc.nvim are automatically refreshed to UI by default, checkout
+|coc-config-diagnostic| for available configurations.
+
+Note most language servers only send diagnostics for opened buffers for
+performance reason, some lint tools could provide diagnostics for all files in
+workspace.
+
+Note pull diagnostics feature is added in LSP 3.17, which is not available
+yet.
+
+Changes on diagnostics refresh~
+
+- Add highlights for diagnostic ranges and virtual text (when enabled on
+  neovim with virtual text support), see |coc-highlights-diagnostics|.
+- Add diagnostic signs to 'signcolumn', use `set signcolumn=yes` to avoid
+  unnecessary UI refresh.
+- Update variable |b:coc_diagnostic_info|.
+- Refresh related |location-list| which was opened by |:CocDiagnostics|.
+
+Diagnostics are not refreshed when buffer is hidden, and refresh on insert
+mode is disabled by default.
+
+Diagnostics highlights:~
+
+See |coc-highlights-diagnostics|.
+
+Enable and disable diagnostics~
+
+Use |coc-config-diagnostic-enable| to toggle diagnostics feature.
+
+Use |CocAction('diagnosticToggle')| for enable/disable diagnostics of current
+buffer.
+
+Show diagnostic messages~
+
+Diagnostic messages would be automatically shown/hide when the diagnostics
+under cursor position changed (use float window/popup when possible) by
+default.
+
+To manually refresh diagnostics messages, use |<Plug>(coc-diagnostic-info)|
+and |CocAction('diagnosticPreview')|.
+
+Jump between diagnostics~
+
+Use key-mappings:
+
+	|<Plug>(coc-diagnostic-next)| jump to next diagnostic.
+	|<Plug>(coc-diagnostic-prev)| jump to previous diagnostic.
+	|<Plug>(coc-diagnostic-next-error)| jump to next error.
+	|<Plug>(coc-diagnostic-prev-error)| jump to previous error.
+
+Check all diagnostics~
+
+Use |coc-list-diagnostics| to open |coc-list| with all available diagnostics.
+
+Use API |CocAction('diagnosticList')| to get list of all diagnostics.
+
+==============================================================================
+PULL DIAGNOSTICS SUPPORT 				*coc-pullDiagnostics*
+
+Diagnostics are pulled for visible documents when supported by languageserver.
+Pull for workspace diagnostics is also enabled by default.
+
+Document diagnostics are also pulled on change by default, and can be
+configured to be pulled on save.
+
+Checkout |coc-config-pullDiagnostic| for related configurations.
+
+==============================================================================
+LOCATIONS SUPPORT 					*coc-locations*
+
+There're different kinds of locations,
+including
+"definitions",
+"declarations",
+"implementations",
+"typeDefinitions" and "references",
+the languageserver used by
+current document may support some of them.
+
+
+Key-mappings for invoke locations request~
+
+    - |<Plug>(coc-definition)|
+    - |<Plug>(coc-declaration)|
+    - |<Plug>(coc-implementation)|
+    - |<Plug>(coc-type-definition)|
+    - |<Plug>(coc-references)|
+    - |<Plug>(coc-references-used)|
+
+    Error will be shown when the buffer not attached |coc-document-attached|.
+
+Location jump behavior~
+
+
+    When there's only one location returned,
+    the location is opened by
+    command specified by
+    |coc-preferences-jumpCommand| ("edit" by default),
+    context mark is added by |m'|,
+    so you can jump back previous location by  <C-o>.
+
+
+
+    When multiple locations returned,
+    |coc-list-location| is opened for preview and
+    other further actions.
+
+    To use |coc-list-location| for single location as well, use
+    |coc-locations-api| (instead key-mappings provided by coc.nvim).
+
+    To change default options of |coc-list-location| or use other plugin for
+    list of locations, see |g:coc_enable_locationlist|.
+
+    To use vim's quickfix for locations, use configuration
+    |coc-preferences-useQuickfixForLocations|.
+
+    To use vim's tag list for definitions, use |CocTagFunc()|.
+
+                                *coc-locations-api*
+Related APIs~
+
+    APIs for jump locations:
+
+    - Jump to definition locations |CocAction('jumpDefinition')|.
+    - Jump to declaration locations |CocAction('jumpDeclaration')|.
+    - Jump to implementation locations |CocAction('jumpImplementation')|.
+    - Jump to type definition locations |CocAction('jumpTypeDefinition')|.
+    - Jump to references |CocAction('jumpReferences')| and |CocAction('jumpUsed')|.
+
+    APIs for get location list:
+
+    - |CocAction('definitions')|
+    - |CocAction('declarations')|
+    - |CocAction('implementations')|
+    - |CocAction('typeDefinitions')|
+    - |CocAction('references')|
+
+    Send custom locations request to languageserver:
+
+    - |CocLocations()|
+    - |CocLocationsAsync()|
+
+==============================================================================
+SIGNATURE HELP 						*coc-signature*
+
+Signature help of function is automatically triggered by default(when user
+type trigger characters defined by the provider), which will use float
+window/popup to show the signature messages when possible.
+
+Use |CocAction('showSignatureHelp')| to trigger signature help manually.
+
+Note error will not be thrown when provider not exists or nothing returned
+from languageserver, use `:CocCommand document.checkBuffer` to check provider
+state of current buffer.
+
+Use |coc-config-signature| to change default signature help behavior.
+
+==============================================================================
+FORMAT 							*coc-format*
+
+There're various ways to format document.
+
+Format full document:~
+
+Use |CocAction('format')|, you can create a command like:
+
+
+	command! -nargs=0 Format :call CocActionAsync('format')
+
+to format current buffer.
+
+Format on type:~
+
+Enable format when insert specific characters by configurations:
+
+- |coc-preferences-formatOnType|
+- |coc-preferences-formatOnTypeFiletypes|
+
+requires `onTypeEdit` provider |CocHasProvider|.
+
+Format selected code:~
+
+Use 'formatexpr' for specific filetypes:
+
+
+  autocmd FileType typescript,json setl formatexpr=CocAction('formatSelected')
+
+So that |gq| could works for format range of lines.
+
+Setup visual mode and operator key-mappings:
+
+
+  xmap <leader>f  <Plug>(coc-format-selected)
+  nmap <leader>f  <Plug>(coc-format-selected)
+
+Format on save:~
+
+Use configuration |coc-preferences-formatOnSaveFiletypes|.
+
+Or create |BufWritePre| autocmd like:
+
+
+	autocmd BufWritePre * call CocAction('format')
+
+Note avoid use |CocActionAsync| with |BufWritePre|.
+
+Format on enter:~
+
+Use |coc#on_enter()| is required to notify coc.nvim the press on enter key.
+
+Configure |coc-preferences-bracketEnterImprove|
+
+==============================================================================
+CODE ACTION 						*coc-code-actions*
+
+Code actions are used for make some specific code changes.
+
+There're different kinds of code actions:
+
+- `quickfix` used for fix diagnostic(s).
+- `refactor` used for code refactor.
+- `source` code actions apply to the entire file.
+- `organizeImport` organize import statements of current document.
+
+Invoke code action~
+
+To fix diagnostic at current line, use |<Plug>(coc-fix-current)|.
+
+Key-mappings for choose code action:~
+
+- |<Plug>(coc-codeaction-cursor)|
+- |<Plug>(coc-codeaction-line)|
+- |<Plug>(coc-codeaction)|
+- |<Plug>(coc-codeaction-selected)|
+
+|coc-dialog-menu| would be shown for pick specific code action.
+
+To invoke organize import action, use command like:
+
+	command! -nargs=0 OR :call CocAction('runCommand',
+				\ 'editor.action.organizeImport')
+
+Related APIs~
+
+- |CocAction('codeActions')|
+- |CocAction('organizeImport')|
+- |CocAction('fixAll')|
+- |CocAction('quickfixes')|
+- |CocAction('doCodeAction')|
+- |CocAction('doQuickfix')|
+- |CocAction('codeActionRange')|
+
+==============================================================================
+DOCUMENT HIGHLIGHTS 					*coc-document-highlights*
+
+Document highlights is used for highlight same symbols of current document
+under cursor.
+
+To enable highlight on CursorHold, create an autocmd like this:
+
+
+	autocmd CursorHold * silent call CocActionAsync('highlight')
+
+Checkout |coc-highlights-document| for related highlight groups.
+
+Note error will not be thrown when provider not exists or nothing returned
+from languageserver with |CocAction('highlight')|
+
+Install `coc-highlight` extension if you want to highlight same words under
+cursor without languageserver support.
+
+To jump between previous/next symbol position, use
+`:CocCommand document.jumpToPrevSymbol` and
+`:CocCommand document.jumpToNextSymbol`
+
+==============================================================================
+DOCUMENT COLOR 						*coc-document-color*
+
+
+    Document colors added color highlights to your documents.
+    To enable document color highlights,
+    use ||coc-config-colors-filetypes||.
+
+
+    Install `coc-highlights` to provide document color highlights for all
+    filetypes.
+
+
+    To pick a color from system color picker,
+    use |CocAction('pickColor')| or choose `editor.action.pickColor` from |:CocCommand|.
+
+
+    May not work on your system.
+
+
+    To change color presentation,
+    use |CocAction('colorPresentation')| or choose `editor.action.colorPresentation` from |:CocCommand|.
+
+
+==============================================================================
+SNIPPETS SUPPORT 					*coc-snippets*
+
+Snippets engine of coc.nvim support both VSCode snippets and ultisnips
+snippets format.
+
+The complete item with snippet format has label ends with `~` by default.
+Select the complete item and confirm the completion by |coc#pum#confirm()| to
+expand the snippet.
+
+A snippet session would be deactivated under the following conditions:
+
+- |InsertEnter| triggered outside snippet.
+- Jump to final placeholder.
+- Content change detected after snippet.
+- Content changed in a snippet outside placeholder (except for deletion of
+  plain text).
+
+To load and expand custom snippets, install `coc-snippets` extension is
+recommended.
+
+Related configurations:~
+
+- |g:coc_snippet_prev|
+- |g:coc_snippet_next|
+- |coc-config-suggest-snippetIndicator|
+- |coc-config-suggest-preferCompleteThanJumpPlaceholder|
+- |coc-preferences-snippetStatusText|
+- |coc-preferences-snippetHighlight|
+
+Related functions:~
+
+- |coc#snippet#next()|
+- |coc#snippet#prev()|
+- |coc#expandable()|
+- |coc#jumpable()|
+- |coc#expandableOrJumpable()|
+
+Related variables, highlights and autocmds:~
+
+- |b:coc_snippet_active|
+- |CocSnippetVisual|
+- |CocJumpPlaceholder|
+
+==============================================================================
+WORKSPACE SUPPORT 					*coc-workspace*
+
+Workspace folders~
+
+Unlike VSCode, workspace folders are resolved from filepath after buffer
+creation.
+
+A list of file/folder names is used for resolve workspace folder, the patterns
+could comes from:
+
+- |b:coc_root_patterns|
+- `rootPatterns` field of configured language server.
+- `rootPatterns` contributions from coc extensions.
+- |coc-preferences-rootPatterns|
+
+Workspace folder is resolved from cwd of vim first and then from top directory
+to the parent directory of current filepath, when workspace folder not
+resolved, current working directory is used if it's parent folder of current
+buffer.  Configurations are provided to change the default behavior:
+
+- |coc-config-workspace-ignoredFiletypes|
+- |coc-config-workspace-ignoredFolders|
+- |coc-config-workspace-bottomUpFiletypes|
+- |coc-config-workspace-workspaceFolderCheckCwd|
+- |coc-config-workspace-workspaceFolderFallbackCwd|
+
+Note for performance reason, user's home directory would never considered as
+workspace folder, which also means the languageserver that requires workspace
+folder may not work when you start vim from home directory.
+
+To preserve workspace folders across vim session, |g:WorkspaceFolders| is
+provided.
+
+To manage current workspace folders, use |coc-list-folders|
+
+To get related root patterns of current buffer, use |coc#util#root_patterns()|
+
+Use `:CocCommand workspace.workspaceFolders` to echo current workspaceFolders.
+
+Workspace edit~
+
+Workspace edit is used to apply changes for multiple buffers(and files), the
+edit could includes document edits and file operations (including file create,
+file/directory delete and file/directory rename).
+
+When the edit failed to apply, coc.nvim will revert the changes (including
+document edits and file operations) that previous made.
+
+Files not loaded would be loaded by `tab drop` command, configured by
+|coc-config-workspace-openResourceCommand|.
+
+To undo and redo workspace edit just applied, use command
+`:CocCommand workspace.undo` and `:CocCommand workspace.redo`
+
+To inspect previous workspace edit, use command
+`:CocCommand workspace.inspectEdit`, in opened buffer, use <CR> for jump to
+change position under cursor.
+
+==============================================================================
+CURSORS SUPPORT						*coc-cursors*
+
+Multiple cursors supported is added to allow edit multiple locations at once.
+
+Cursors session could be started by following ways:
+
+- Use command `:CocCommand document.renameCurrentWord` to rename variable
+  under cursor.
+- Use |<Plug>(coc-refactor)| to open refactor buffer.
+- Use |:CocSearch| to open searched locations.
+- Use cursors related key-mappings to add text range, including
+  |<Plug>(coc-cursors-operator)|, |<Plug>(coc-cursors-word)|,
+  |<Plug>(coc-cursors-position)| and |<Plug>(coc-cursors-range)|
+- Ranges added by command `editor.action.addRanges` from coc extensions.
+
+Default key-mappings when cursors activated:
+
+- <esc> cancel cursors session.
+- <C-n> jump to next cursors range.
+- <C-p> jump to previous cursors range.
+
+Use |coc-config-cursors| to change cursors related key-mappings.
+Use highlight group |CocCursorRange| to change default range highlight.
+Use |b:coc_cursors_activated| to check if cursors session is enabled.
+
+==============================================================================
+SYMBOLS OUTLINE						*coc-outline*
+
+Outline is a split window with current document symbols rendered as
+|coc-tree|.
+
+To show and hide outline of current window, use |CocAction('showOutline')| and
+|CocAction('hideOutline')|.
+
+Outline view has Window variable `cocViewId` set to `OUTLINE`.
+
+Following outline features are supported:
+- Start fuzzy filter by |coc-config-tree-key-activeFilter|.
+- Automatic update after document change.
+- Automatic reload when buffer in current window changed.
+- Automatic follow cursor position by default.
+- Different filter modes that can be changed on the fly
+  |coc-config-outline-switchSortKey|.
+
+Outline would try to reload document symbols after 500ms when provider
+not registered, which avoid the necessary to check provider existence.
+
+Checkout |coc-config-tree| and |coc-config-outline| for available
+configurations.
+
+Checkout |CocTree| and |CocSymbol| for customize highlights.
+
+Use configuration `"suggest.completionItemKindLabels"` for custom icons.
+
+To show outline for each tab automatically, use |autocmd|:
+
+  autocmd VimEnter,Tabnew *
+	  \ if empty(&buftype) | call CocActionAsync('showOutline', 1) | endif
+
+To close outline when it's the last window automatically, use
+|autocmd| like:
+
+  autocmd BufEnter * call CheckOutline()
+  function! CheckOutline() abort
+    if &filetype ==# 'coctree' && winnr('$') == 1
+      if tabpagenr('$') != 1
+        close
+      else
+        bdelete
+      endif
+    endif
+  endfunction
+
+Create a key-mapping to toggle outline, like:
+
+  nnoremap <silent><nowait> <space>o  :call ToggleOutline()<CR>
+  function! ToggleOutline() abort
+    let winid = coc#window#find('cocViewId', 'OUTLINE')
+    if winid == -1
+      call CocActionAsync('showOutline', 1)
+    else
+      call coc#window#close(winid)
+    endif
+  endfunction
+
+==============================================================================
+CALL HIERARCHY						*coc-callHierarchy*
+
+A call hierarchy is a split |coc-tree| with locations for incoming or
+outgoing calls of current function.
+
+Call hierarchy window is opened by |CocAction('showIncomingCalls')| and
+|CocAction('showOutgoingCalls')|.
+
+Call hierarchy is configured by |CocSymbol|, |coc-config-callHierarchy| and
+|coc-config-tree|.
+
+Related ranges are highlighted with |CocSelectedRange| highlight group in
+opened buffer.
+
+|coc-dialog-menu| could be invoked by |coc-config-tree-key-actions|.
+Available actions:
+
+- Dismiss.
+- Open in new tab.
+- Show Incoming Calls.
+- Show Outgoing Calls.
+
+Use <CR> in call hierarchy tree to open location in original window.
+
+==============================================================================
+SEMANTIC HIGHLIGHTS					*coc-semantic-highlights*
+
+Semantic tokens are used to add additional color information to a file that
+depends on language specific symbol information.
+
+Use |coc-config-semanticTokens-filetypes| to enable semantic tokens highlights.
+
+Use `:CocCommand semanticTokens.checkCurrent` to check semantic highlight
+information with current buffer.
+
+To create custom highlights for symbol under cursor, follow these steps:
+
+- Inspect semantic token by
+
+  :CocCommand semanticTokens.inspect
+
+  to check token type and token modifiers with current symbol.
+
+- Create new highlight group by |highlight|, for example:
+
+  :hi link CocSemDeclarationVariable MoreMsg
+
+- Refresh semantic highlight of current buffer by:
+
+  :CocCommand semanticTokens.refreshCurrent
+
+See |CocSem| to customize semantic token highlight groups.
+
+See |coc-config-semanticTokens| for related configurations.
+
+
+==============================================================================
+TREE SUPPORT 						*coc-tree*
+
+Tree view is used for render outline and call hierarchy, following features
+are supported:
+
+- Data update while keep tree node open/close state.
+- Auto refresh on load error.
+- Click open/close icon to toggle collapse state.
+- Click node to invoke default command.
+- Show tooltip in float window on |CursorHold| when possible.
+- Key-mappings support |coc-tree-mappings|
+- Optional multiple selection.
+- Optional node reveal support.
+- Optional fuzzy filter support.
+- Provide API `window.createTreeView` for extensions.
+
+Check |coc-config-tree| for related configurations.
+
+The filetype is `'coctree'`, which can be used to overwrite buffer and window
+options.
+
+Use variable |w:cocViewId| to detect the kind of tree.
+
+------------------------------------------------------------------------------
+
+TREE KEY MAPPINGS 					*coc-tree-mappings*
+
+    Default key-mappings are provided for 'coctree' buffer, which can be changed
+    by configuration |coc-config-tree|.
+
+    <space> - Select/unselect item, configured by `"tree.key.toggleSelection"`.
+    <tab> 	- Invoke actions of current item, configured by `"tree.key.actions"`.
+    <esc>   - Close tree window, configured by `"tree.key.close"`.
+    <cr>    - Invoke command of current item,  configured by `"tree.key.invoke"`.
+    <C-o>   - Move cursor to original window.
+    f 	- Activate filter, configured by `"tree.key.activeFilter"`.
+    t 	- Trigger key to toggle expand state of tree node, configured by
+        `tree.key.toggle`.
+    M 	- Collapse all tree node, configured by `"tree.key.collapseAll"`.
+
+------------------------------------------------------------------------------
+
+TREE FILTER 						*coc-tree-filter*
+
+    Filter mode is used for search for specific node by fuzzy filter, invoke the
+    key configured by `"tree.key.activeFilter"` to activate filter mode.
+
+    Some tree views not have filter mode supported.
+
+    When filter mode is activated, type normal character to insert filter input
+    and following special keys are supported:
+
+    <bs> 	- Delete last filter character when possible.
+    <C-h> 	- Delete last filter character when possible.
+    <C-u> 	- Clean up filter text.
+    <C-p> 	- Navigate to previous filter text (stored on command invoke).
+    <C-n> 	- Navigate to next filter text (stored on command invoke).
+    <esc> 	- exit filter mode.
+    <C-o> 	- exit filter mode.
+    <up> or `"tree.key.selectPrevious"` 	- Select previous node.
+    <down> or `"tree.key.selectNext"` 	- Select next node.
+    <cr> or `"key.key.invoke"` 	- Invoke command of selected node.
+
+    ==============================================================================
+    LIST SUPPORT						*coc-list*
+
+    Built-in list support to make working with lists of items easier.
+
+    The following features are supported:
+
+    - Insert & normal mode.
+    - Default key-mappings for insert & normal mode.
+    - Customize key-mappings for insert & normal mode.
+    - Commands for reopening & doing actions with a previous list.
+    - Different match modes.
+    - Interactive mode.
+    - Auto preview on cursor move.
+    - Number select support.
+    - Built-in actions for locations.
+    - Parse ANSI code.
+    - Mouse support.
+    - Select actions using <tab>.
+    - Multiple selections using <space> in normal mode.
+    - Select lines by visual selection.
+
+------------------------------------------------------------------------------
+
+LIST COMMAND						*coc-list-command*
+
+:CocList [{...options}] [{source}] [{...args}]		*:CocList*
+
+	Open coc list of {source}, example:
+
+
+	:CocList --normal location
+
+	For current jump locations.
+
+	See |coc-list-options| for available list options,
+
+	Also check |coc-config-list| for list configuration.
+
+	{args} are sent to source during the fetching of list.
+	Press `?` on normal mode to get supported {args} of current
+	list.
+
+	When {source} is empty, lists source is used.
+
+:CocListResume [{name}]					*:CocListResume*
+
+	Reopen last opened list, input and cursor position will be preserved.
+
+:CocListCancel						*:CocListCancel*
+
+	Close list, useful when the list is not the current window.
+
+:CocPrev [{name}]					*:CocPrev*
+
+	Invoke default action for the previous item in the last {name} list.
+
+	Doesn't open the list window if it's closed.
+
+:CocNext [{name}]					*:CocNext*
+
+	Invoke the default action for the next item in the last {name} list.
+
+	Doesn't open the list window if it's closed.
+
+:CocFirst [{name}]					*:CocFirst*
+
+	Invoke default action for first item in the last {name} list.
+
+:CocLast [{name}]					*:CocLast*
+
+	Invoke default action for last item in the last {name} list.
+
+							*coc-list-options*
+Options of CocList command~
+
+--top
+	Show list as top window.
+
+--tab
+	Open list in new tabpage.
+
+--normal
+
+	Start list in normal mode, recommended for short list.
+
+--no-sort
+	Disable sort made by fuzzy score or most recently used, use it when
+	it's already sorted.
+
+--input={input}
+
+	Specify the input on session start.
+
+--strict
+-S
+	Use strict matching instead of fuzzy matching.
+
+--regex
+-R
+	Use regex matching instead of fuzzy matching.
+
+--ignore-case
+
+	Ignore case when using strict matching or regex matching.
+
+--number-select
+-N
+	Type a line number to select an item and invoke the default action on
+	insert mode. Type `0` to select the 10th line.
+
+
+--interactive
+-I
+	Use interactive mode, list items would be reloaded on input
+	change, filter and sort would be done by list implementation.
+
+	Only works when the list support interactive mode.
+
+	Filtering and sorting would be done by underlying task, which
+	means options including `--strict`, `--no-sort`, `--regex`,
+	`--ignore-case` would not work at all.
+
+--auto-preview
+-A
+
+	Start a preview for the current item on the visible list.
+
+--no-quit
+
+	Not quit list session after do action.
+
+	You may need to refresh the list for current state.
+
+--first
+
+	Invoke default action for first list item on list open.
+	Nothing happens when the list is empty.
+
+--reverse
+
+	Reverse lines order of list.
+
+------------------------------------------------------------------------------
+
+LIST CONFIGURATION					*coc-list-configuration*
+
+Use `coc-settings.json` for configuration of lists.
+
+Configuration of list starts with 'list.'.
+
+See |coc-config-list| or type `list.` in your settings file to get completion
+list (requires coc-json installed).
+
+For configuration of a specified list, use section that starts with:
+`list.source.{name}`, where `{name}` is the name of list.
+
+Change default action:~
+
+If you want to use `tabe` as default action of symbols list, you can use:
+
+	// change default action of symbols
+	"list.source.symbols.defaultAction": "tabe"
+
+in your coc-settings.json
+
+Change default options:~
+
+Use `list.source.{name}.defaultOptions` setting like:
+
+
+	// make symbols list use normal mode and interactive by default
+	"list.source.symbols.defaultOptions": ["--interactive", "--number-select"],
+
+Some list like symbols only work in interactive mode, you must
+include `--interactive` in `defaultOptions`.
+
+Default options will not be used when there're options passed
+with |:CocList| command.
+
+Change default arguments:~
+
+Use `list.source.{name}.defaultArgs` setting like:
+
+
+	// use regex match for grep source
+	"list.source.grep.defaultArgs": ["-regex"],
+
+Default arguments used only when arguments from |:CocList| command is
+empty.
+
+Type `?` on normal mode to get supported arguments of current list.
+
+------------------------------------------------------------------------------
+
+LIST MAPPINGS						*coc-list-mappings*
+
+Default mappings on insert mode:
+
+<Esc>       - Cancel list session.
+<CR>        - Do default action with selected items or current item.
+<C-c>       - Stop loading task.
+<C-v>       - Paste text from system clipboard.
+<C-l>       - Reload list.
+<C-o>       - Change to normal mode.
+<Down>      - Select next line.
+<Up>        - Select previous line.
+<Left>      - Move cursor left.
+<Right>     - Move cursor right.
+<End>       - Move cursor to end of prompt.
+<C-e>       - Same as <End>.
+<Home>      - Move cursor to start of prompt.
+<C-a>       - Same as <Home>.
+<C-f>       - Scroll window forward.
+<C-b>       - Scroll window backward.
+<Backspace> - Remove previous character of cursor.
+<C-h>       - Remove previous character of cursor.
+<C-w>       - Remove previous word of cursor.
+<C-u>       - Remove characters before cursor.
+<C-n>       - Navigate to next input in history.
+<C-p>       - Navigate to previous input in history.
+<C-s>       - Switch matcher for filter items.
+<C-r>       - Insert content from vim's register.
+<Tab>       - Select action.
+
+Default mappings on normal mode:
+
+<Esc>       - Cancel list session.
+<CR>        - Do default action with selected items or current item.
+<C-c>       - Stop source from fetching more items.
+<C-l>       - Reload list.
+<C-a>       - Mark all visible items selected.
+<C-o>       - Jump to original window on list create.
+<Tab>       - Select action.
+<C-e> 	    - Scroll preview window down.
+<C-y> 	    - Scroll preview window up.
+<Space>     - Toggle selection of current item.
+i,I,o,O,a,A - Change to insert mode.
+p           - Preview action.
+:           - Cancel list session without closing window.
+?           - Show help of current list.
+t           - Do 'tabe' action.
+d           - Do 'drop' action.
+s           - Do 'split' action.
+
+Use |coc-list-mappings-custom| to override default mappings.
+
+							*coc-list-mappings-custom*
+
+Configurations `"list.normalMappings"` and `"list.insertMappings"` are used
+for customizing the list key-mappings, example:
+
+
+	"list.insertMappings": {
+		"<C-r>": "do:refresh",
+		"<C-f>": "feedkeys:\\<C-f>",
+		"<C-b>": "feedkeys:\\<C-b>",
+		"<C-n>": "normal:j",
+		"<C-p>": "normal:k",
+		"<C-t>": "action:tabe",
+		"<C-x>": "call:MyFunc",
+		// paste yanked text to prompt
+		"<C-v>": "eval:@@"
+	}
+	"list.normalMappings": {
+		"c": "expr:MyExprFunc"
+		"d": "action:delete"
+	}
+
+You should only use mappings that start with `<C-` or `<A-` for insert
+mappings.
+
+<Esc> can't be remapped for other actions.
+
+The mapping expression should be `command:arguments`, available commands:
+
+'do' - special actions provided by coc list, including:
+	'refresh'       - reload list.
+	'selectall'     - mark all visible items selected.
+	'switch'        - switch matcher used for filter items.
+	'exit'          - exit list session.
+	'stop'          - stop loading task.
+	'cancel'        - cancel list session but leave list window open.
+	'toggle'        - toggle selection of current item.
+	'togglemode'    - toggle between insert and normal mode.
+	'previous'      - move cursor to previous item.
+	'next'          - move cursor to next item.
+	'defaultaction' - do default action for selected item(s).
+	'chooseaction'  - choose action for selected item(s).
+	'jumpback'      - stop prompt and jump back to original window.
+	'previewtoggle' - toggle preview window, requires preview action exists.
+	'previewup'     - scroll preview window up.
+	'previewdown'   - scroll preview window down.
+	'help'          - show help.
+'prompt' - do prompt action, including:
+	'previous' - change to previous input in history.
+	'next'           - change to next input in history.
+	'start'          - move cursor to start.
+	'end'            - move cursor to end.
+	'left'           - move cursor left.
+	'right'          - move cursor right.
+	'deleteforward'  - remove previous character.
+	'deletebackward' - remove next character.
+	'removetail'     - remove characters afterwards.
+	'removeahead'    - remove character ahead.
+	'removeword'     - remove word before cursor.
+	'insertregister' - insert content from Vim register.
+	'paste'          - append text from system clipboard to prompt.
+'eval'     - append text to prompt from result of VimL expression.
+'action'   - execute action of list, use <tab> to find available actions.
+'feedkeys' - feedkeys to list window, use `\\` in JSON to escape special
+             characters.
+'normal'   - execute normal command in list window.
+'normal!'  - execute normal command without remap.
+'command'  - execute command.
+'call'     - call Vim function with |coc-list-context| as only argument.
+'expr'     - same as 'call' but expect the function return action name.
+
+							*coc-list-context*
+
+Context argument contains the following properties:
+
+'name'    - name of the list, example: `'location'`.
+'args'    - arguments of the list.
+'input'   - current input of prompt.
+'winid'   - window id on list activated.
+'bufnr'   - buffer number on list activated.
+'targets' - list of selected targets, checkout |coc-list-target| for properties.
+
+							*coc-list-target*
+
+Target contains the following properties:
+
+'label'      - mandatory property that is shown in the buffer.
+'filtertext' - optional filter text used for filtering items.
+'location'   - optional location of item, check out https://bit.ly/2Rtb6Bo
+'data'       - optional additional properties.
+
+------------------------------------------------------------------------------
+
+LIST SOURCES						*coc-list-sources*
+
+------------------------------------------------------------------------------
+
+    location						*coc-list-location*
+
+        Last jump locations.
+
+        Actions:
+
+        - 'preview' : preview location in preview window.
+        - 'open': open location by use
+            `"coc.preferences.jumpCommand"`, default action
+        - 'tabe': Use |:tabe| to open location.
+        - 'drop': Use |:drop| to open location.
+        - 'vsplit': Use |:vsplit| to open location.
+        - 'split': Use |:split| to open location.
+        - 'quickfix': Add selected items to Vim's quickfix.
+
+    extensions						*coc-list-extensions*
+
+        Manage coc.nvim extensions.
+
+        Actions:
+
+        - 'toggle' activate/deactivate extension, default action.
+        - 'disable' disable extension.
+        - 'enable' enable extension.
+        - 'lock' lock/unlock extension to current version.
+        - 'doc' view extension's README doc.
+        - 'fix' fix dependencies in terminal buffer.
+        - 'reload' reload extension.
+        - 'uninstall' uninstall extension.
+
+    diagnostics						*coc-list-diagnostics*
+
+        All diagnostics for the workspace.
+
+        Actions:
+
+        - Same as |coc-list-location|
+
+    folders 						*coc-list-folders*
+
+        Manage current workspace folders of coc.nvim.
+
+        Actions:
+
+        - 'edit' change the directory of workspace folder.
+        - 'delete' remove selected workspace folder.
+
+    outline							*coc-list-outline*
+
+        Symbols in the current document.
+
+        Actions:
+
+        - Same as |coc-list-location|
+
+    symbols							*coc-list-symbols*
+
+        Search workspace symbols.
+
+        Actions:
+
+        - Same as |coc-list-location|
+
+    services						*coc-list-services*
+
+        Manage registered services.
+
+        Actions:
+
+        - 'toggle': toggle service state, default action.
+
+    commands						*coc-list-commands*
+
+        Workspace commands.
+
+        Actions:
+
+        - 'run': run selected command, default action.
+
+    links							*coc-list-links*
+
+        Links in the current document.
+
+        Actions:
+
+        - 'open': open the link, default action.
+        - 'jump': jump to link definition.
+
+    sources							*coc-list-completion-sources*
+
+        Available completion sources.
+
+        Actions:
+
+        - 'toggle': activate/deactivate source, default action.
+        - 'refresh': refresh source.
+        - 'open': open the file where source defined.
+
+    lists							*coc-list-lists*
+
+        Get available lists.
+
+        Actions:
+
+        - 'open': open selected list, default action.
+
+==============================================================================
+
+DIALOG SUPPORT						*coc-dialog*
+
+    Dialog is special float window/popup that could response to user actions,
+        dialog have close button,
+        border,
+        title (optional),
+        bottom buttons(optional).
+
+
+
+    Note bottom buttons work different on neovim and vim,
+    on neovim you can click the button since
+    neovim allows focus of window,
+    on vim you have to type highlighted character to trigger button callback.
+
+    See |coc-config-dialog| for available configurations.
+
+------------------------------------------------------------------------------
+
+*coc-dialog-basic*
+
+    A basic dialog is create by
+    Javascript API `window.showDialog` ,
+    which is just some texts with optional buttons.
+
+------------------------------------------------------------------------------
+
+							*coc-dialog-confirm*
+
+    A confirm dialog is used for user to confirm an action,
+    normally created by
+    `window.showPrompt()`
+    Confirm dialog uses
+        filter feature on vim8 and
+        |getchar()| on Neovim.
+
+    The difference is you can operate vim on vim8,
+    but not on neovim.
+
+    Supported key-mappings:
+
+        <C-c>         - force cancel, return -1 for callback.
+        <esc>, n, N   - reject the action, return 0 for callback.
+        y,Y           - accept the action, return 1 for callback.
+
+------------------------------------------------------------------------------
+
+							*coc-dialog-input*
+
+An input dialog request user input with optional default value, normally
+created by `window.requestInput`, when `"coc.preferences.promptInput"` is
+false, vim's command line input prompt is used instead.
+
+On neovim, it uses float window, on vim8, it opens terminal in popup.
+
+Supported key-mappings:
+
+<C-a>               - move cursor to first col.
+<C-e>               - move cursor to last col.
+<esc>               - cancel input, null is received by callback.
+<cr>                - accept current input selection of current item.
+
+QuickPick related (available when created by |coc-dialog-quickpick|).
+
+<C-f>               - scroll forward quickpick list.
+<C-b>               - scroll backward quickpick list.
+<C-j> <C-n> <down>  - move to next item in quickpick list.
+<C-k> <C-p> <up>    - move to previous item in quickpick list.
+<C-space>           - toggle selection of current item in quickpick list when
+canSelectMany is supported.
+
+Note on neovim, other insert mode key-mappings could work.
+
+Note not possible to configure key-mappings on vim8, to customize key-mappings
+on neovim, use |CocOpenFloatPrompt| with current buffer.
+
+------------------------------------------------------------------------------
+
+							*coc-dialog-quickpick*
+
+A quickpick is a input dialog in the middle with a float window/popup contains
+filtered list items.
+
+A simple fuzzy filter is used by default.
+
+See |coc-config-dialog| for available configurations.
+
+See |coc-dialog-input| for available key-mappings.
+
+------------------------------------------------------------------------------
+
+							*coc-dialog-menu*
+
+A menu dialog is shown aside current cursor position for pick a single item
+from list of items, extensions could use `window.showMenuPicker` to create menu
+dialog.
+
+Supported key-mappings:
+
+<Esc> <C-c>          - cancel selection.
+<cr>                 - confirm selection of current item, use
+|dialog.confirmKey| to override.
+1-9                  - select item with 1 based index.
+g                    - move to first item.
+G                    - move to last item.
+j <tab> <down> <C-n> - move to next item.
+k <s-tab> <up> <C-p> - move to previous item.
+<C-f>                - scroll forward.
+<C-b>                - scroll backward.
+
+------------------------------------------------------------------------------
+
+							*coc-dialog-picker*
+
+A picker dialog is used for multiple selection. On neovim, it's possible to
+toggle selection by mouse click inside the bracket. Extensions could use
+`window.showPickerDialog` to create picker dialog.
+
+Supported key-mappings:
+
+<Esc> <C-c>          - cancel selection.
+<cr>                 - confirm selection of current item, use
+|dialog.confirmKey| to override.
+<space>              - toggle selection of current item.
+g                    - move to first item.
+G                    - move to last item.
+j <tab> <down> <C-n> - move to next item.
+k <s-tab> <up> <C-p> - move to previous item.
+<C-f>                - scroll forward.
+<C-b>                - scroll backward.
+
+Note when close button is clicked, the selection is canceled with undefined
+result (same as <esc>).
+
+==============================================================================
+
+NOTIFICATION SUPPORT					*coc-notification*
+
+Notification windows are created at the bottom right of the screen.
+
+Notifications are created by Javascript APIs: `window.showErrorMessage()`,
+`window.showWarningMessage()`, `window.showInformationMessage()`,
+`window.showNotification()` and `window.withProgress()`.
+
+Possible kind of notifications: 'error', 'warning', 'info' and 'progress'.
+
+Message notifications (not progress) requires
+|coc-preferences-enableMessageDialog| to be `true`.
+
+Message notifications without actions would be automatically closed after
+milliseconds specified by |coc-config-notification-timeout|.
+
+Customize notifications:~
+
+- Customize icons: |g:coc_notify|
+- Customize highlights: |CocNotification|
+- Customize configurations: |coc-config-notification|
+
+Related functions:~
+
+- |coc#notify#close_all()|
+- |coc#notify#do_action()|
+- |coc#notify#copy()|
+- |coc#notify#show_sources()|
+- |coc#notify#keep()|
+
+==============================================================================
+
+STATUSLINE SUPPORT					*coc-status*
+    Diagnostics info and
+    other status info contributed by
+    extensions could be shown in statusline.
+
+    The easiest way is add `%{coc#status()}` to your 'statusline' option.
+    Example:
+
+        set statusline^=%{coc#status()}
+
+    Create function~
+
+        function! StatusDiagnostic() abort
+            let info = get(b:, 'coc_diagnostic_info', {})
+            if empty(info) | return '' | endif
+            let msgs = []
+            if get(info, 'error', 0)
+                call add(msgs, 'E' . info['error'])
+            endif
+            if get(info, 'warning', 0)
+                call add(msgs, 'W' . info['warning'])
+            endif
+            return join(msgs, ' ') . ' ' . get(g:, 'coc_status', '')
+        endfunction
+
+    Add `%{StatusDiagnostic()}` to your 'statusline' option.
+
+    With vim-airline~
+        https://github.com/vim-airline/vim-airline  *coc-status-airline*
+
+        Error and warning display should work in vim-airline out of box.
+
+        Disable vim-airline integration:
+
+            let g:airline#extensions#coc#enabled = 0
+
+        Change error symbol:
+
+            let airline#extensions#coc#error_symbol = 'Error:'
+
+        Change warning symbol:
+
+            let airline#extensions#coc#warning_symbol = 'Warning:'
+
+        Change error format:
+
+            let airline#extensions#coc#stl_format_err = '%E{[%e(#%fe)]}'
+
+        Change warning format:
+
+            let airline#extensions#coc#stl_format_warn = '%W{[%w(#%fw)]}'
+
+
+    With lightline.vim~
+        https://github.com/itchyny/lightline.vim   *coc-status-lightline*
+
+        Use configuration like:
+
+
+        let g:lightline = {
+            \ 'colorscheme': 'wombat',
+            \ 'active': {
+            \   'left': [ [ 'mode', 'paste' ],
+            \             [ 'cocstatus', 'readonly', 'filename', 'modified' ] ]
+            \ },
+            \ 'component_function': {
+            \   'cocstatus': 'coc#status'
+            \ },
+            \ }
+
+        " Use autocmd to force lightline update.
+                    :autocmd User CocStatusChange,CocDiagnosticChange call lightline#update()
+
+==============================================================================
+CUSTOM SOURCE						*coc-custom-source*
+
+Creating a custom source in VimL is supported.
+
+Check out https://github.com/neoclide/coc.nvim/wiki/Create-custom-source
+
+==============================================================================
+FAQ							*coc-faq*
+
+------------------------------------------------------------------------------
+
+Check out https://github.com/neoclide/coc.nvim/wiki/F.A.Q
+
+==============================================================================
+CHANGELOG						*coc-changelog*
+
+See history.md under project root.
+
+==============================================================================
+DIY_again
+DIY_2  vim:ft=help:

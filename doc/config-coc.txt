@@ -220,8 +220,8 @@ Completion related~
 	completion, default: `[]`
 
 "suggest.virtualText" 					*coc-config-suggest-virtualText*
-
-	Show virtual text for insert word of selected item, works on neovim >=  0.5.0, default: `false`
+	Show virtual text for insert word of selected item,
+    works on neovim >=  0.5.0, default: `false`
 
 "suggest.completionItemKindLabels"			*coc-config-suggest-completionItemKindLabels*
 
@@ -274,9 +274,8 @@ Document highlight~
 
 ------------------------------------------------------------------------------
 Colors highlight~
-							*coc-config-colors*
-"colors.filetypes"					*coc-config-colors-filetypes*
-
+    "colors.filetypes"
+            *coc-config-colors-filetypes*  *coc-config-colors*
 	Filetypes that should enable colors highlight feature.
 	Use `*` for all filetypes.
 
@@ -399,10 +398,9 @@ Diagnostics~
         Show all diagnostics of the current line if none of them are at the
         current position, default: `false`
 
-    "diagnostic.messageDelay"				*coc-config-diagnostic-messageDelay*
-
+    "diagnostic.messageDelay"
         How long to wait (in milliseconds) before displaying the diagnostic
-        message with echo or float.
+        message with echo or float.  *coc-config-diagnostic-messageDelay*
 
         Default: `200`
 
@@ -430,8 +428,8 @@ Diagnostics~
         buffer type use `"default": "bufferType"`, default: `{}`
 
     virtualtext
-        "diagnostic.virtualText"				*coc-config-diagnostic-virtualText*
-
+        "diagnostic.virtualText"
+            *coc-config-diagnostic-virtualText*
             Use Neovim virtual text to display diagnostics, default: `false`
 
         "diagnostic.virtualTextLevel"				*coc-config-diagnostic-virtualTextLevel*
@@ -697,24 +695,24 @@ Notification~
 
 ------------------------------------------------------------------------------
 CodeLens~
-							*coc-config-codelens*
-"codeLens.enable"					*coc-config-codeLens-enable*
+                                *coc-config-codelens*
+    "codeLens.enable"					*coc-config-codeLens-enable*
 
-	Enable `codeLens` feature. Requires Neovim with virtual text feature,
-	default: `false`.
+        Enable `codeLens` feature. Requires Neovim with virtual text feature,
+        default: `false`.
 
-"codeLens.position"					*coc-config-codeLens-position*
+    "codeLens.position"					*coc-config-codeLens-position*
 
-	Position of codeLens, works on nvim >= 0.6.0, valid options
-	["top", "eol", "right_align"], default: `top`.
+        Position of codeLens, works on nvim >= 0.6.0, valid options
+        ["top", "eol", "right_align"], default: `top`.
 
-"codeLens.separator"					*coc-config-codeLens-separator*
+    "codeLens.separator"					*coc-config-codeLens-separator*
 
-	Separator text for `codeLens` in virtual text, default: `""`.
+        Separator text for `codeLens` in virtual text, default: `""`.
 
-"codeLens.subseparator"					*coc-config-codeLens-subseparator*
+    "codeLens.subseparator"					*coc-config-codeLens-subseparator*
 
-	Subseparator text for multiple codelens in virtual text, default: `" "`
+        Subseparator text for multiple codelens in virtual text, default: `" "`
 
 ------------------------------------------------------------------------------
 Workspace related~
@@ -1180,116 +1178,125 @@ supported:
 
 ------------------------------------------------------------------------------
 Languageserver~
-							*coc-config-languageserver*
+                    *coc-config-languageserver*
 
-	Dictionary of Language Servers, key is the ID of corresponding server,
-	and value is configuration of languageserver. Default: `{}`
 
-	Properties of languageserver configuration:
+        Dictionary of Language Servers,
+        key is the ID of corresponding server,
+        and value is configuration of languageserver.
+        Default:
+        `{}`
 
-	- "enable": Change to `false` to disable that languageserver.
+    Properties of languageserver configuration:
 
-	- "filetypes": Supported filetypes, add * in array for all filetypes.
-	  It's required for start the languageserver, please make sure
-	  your filetype is expected by `:CocCommand document.echoFiletype` command
+            - "enable": Change to `false` to disable that languageserver.
 
-	- "additionalSchemes": Additional URI schemes, default schemes
-	  including file & untitled.
-	  You have to setup vim provide content for custom URI as well.
+            - "filetypes":
+                Supported filetypes,
+                add * in array for all filetypes.
+                It's required for start the languageserver,
+                    please make sure  your filetype is expected by
+                    `:CocCommand document.echoFiletype` command
 
-	- "cwd": Working directory used to start languageserver, vim's cwd is
-	  used by default.
+            - "additionalSchemes":
+                Additional URI schemes,
+                default schemes  including file & untitled.
+                You have to setup vim provide content for custom URI as well.
 
-	- "env": Environment variables for child process.
+            - "cwd": Working directory used to start languageserver, vim's cwd is
+            used by default.
 
-	- "settings": Settings for languageserver, received on server
-	  initialization.
+            - "env": Environment variables for child process.
 
-	- "trace.server": Trace level of communication between server and
-	  client that showed with output channel, open output channel by
-	  command `:CocCommand workspace.showOutput`
+            - "settings": Settings for languageserver, received on server
+            initialization.
 
-	- "stdioEncoding": Encoding used for stdio of child process.
+            - "trace.server": Trace level of communication between server and
+            client that showed with output channel, open output channel by
+            command `:CocCommand workspace.showOutput`
 
-	- "initializationOptions": Initialization options passed to
-	  languageserver (it's deprecated)
+            - "stdioEncoding": Encoding used for stdio of child process.
 
-	- "rootPatterns": Root patterns used to resolve rootPath from current
-	  file.
+            - "initializationOptions": Initialization options passed to
+            languageserver (it's deprecated)
 
-	- "requireRootPattern": If true, doesn't start server when root
-	  pattern not found.
+            - "rootPatterns": Root patterns used to resolve rootPath from current
+            file.
 
-	- "ignoredRootPaths": Absolute root paths that language server should
-	  not use as rootPath, higher priority than rootPatterns.
+            - "requireRootPattern": If true, doesn't start server when root
+            pattern not found.
 
-	- "disableDynamicRegister": Disable dynamic registerCapability feature
-	  for this languageserver to avoid duplicated feature registration.
+            - "ignoredRootPaths": Absolute root paths that language server should
+            not use as rootPath, higher priority than rootPatterns.
 
-	- "disableSnippetCompletion": Disable snippet completion feature for
-	  this languageserver.
+            - "disableDynamicRegister": Disable dynamic registerCapability feature
+            for this languageserver to avoid duplicated feature registration.
 
-	- "disabledFeatures": Disable features for this languageserver,
-	  valid keys:
+            - "disableSnippetCompletion": Disable snippet completion feature for
+            this languageserver.
 
-	  ["completion", "configuration", "workspaceFolders", "diagnostics",
-	  "willSave", "willSaveUntil", "didSaveTextDocument",
-	  "fileSystemWatcher", "hover", "signatureHelp", "definition",
-	  "references", "documentHighlight", "documentSymbol",
-	  "workspaceSymbol", "codeAction", "codeLens", "formatting",
-	  "documentFormatting", "documentRangeFormatting",
-	  "documentOnTypeFormatting", "rename", "documentLink",
-	  "executeCommand", "pullConfiguration", "typeDefinition",
-	  "implementation", "declaration", "color", "foldingRange",
-	  "selectionRange", "progress", "callHierarchy", "linkedEditing",
-	  "fileEvents", "semanticTokens"]
+            - "disabledFeatures": Disable features for this languageserver,
+            valid keys:
 
-	- "formatterPriority": Priority of this languageserver's formatter.
+            ["completion", "configuration", "workspaceFolders", "diagnostics",
+            "willSave", "willSaveUntil", "didSaveTextDocument",
+            "fileSystemWatcher", "hover", "signatureHelp", "definition",
+            "references", "documentHighlight", "documentSymbol",
+            "workspaceSymbol", "codeAction", "codeLens", "formatting",
+            "documentFormatting", "documentRangeFormatting",
+            "documentOnTypeFormatting", "rename", "documentLink",
+            "executeCommand", "pullConfiguration", "typeDefinition",
+            "implementation", "declaration", "color", "foldingRange",
+            "selectionRange", "progress", "callHierarchy", "linkedEditing",
+            "fileEvents", "semanticTokens"]
 
-	- "revealOutputChannelOn": Configure message level to show the output
-	  channel buffer.
+            - "formatterPriority": Priority of this languageserver's formatter.
 
-	- "progressOnInitialization": Enable progress report on languageserver
-	  initialize.
+            - "revealOutputChannelOn": Configure message level to show the output
+            channel buffer.
 
-Language server start with command:~
+            - "progressOnInitialization": Enable progress report on languageserver
+            initialize.
 
-	Additional fields can be used for a command languageserver:
+    Language server start with command:~
 
-	- "command": Executable program name in $PATH or absolute path of
-	  executable used for start languageserver.
+        Additional fields can be used for
+            a command languageserver:
 
-	- "args": Command line arguments of command.
+        - "command"  :
+            Executable program name in $PATH or absolute path of  executable used for start languageserver.
 
-	- "detached": Detach language server when is true.
+        - "args"     : Command line arguments of command.
 
-	- "shell": Use shell for server process, default: `false`
+        - "detached" : Detach language server when is true.
 
-Language server start with module:~
+        - "shell"    : Use shell for server process, default : `false`
 
-	Additional fields can be used for a languageserver started by node
-	module:
+    Language server start with module:~
 
-	- "module": Absolute filepath of Javascript file.
+        Additional fields can be used for a languageserver started by node
+        module:
 
-	- "args": Extra arguments used on fork Javascript module.
+        - "module": Absolute filepath of Javascript file.
 
-	- "runtime": Absolute path of node runtime, node runtime of coc.nvim
-	  is used by default.
+        - "args": Extra arguments used on fork Javascript module.
 
-	- "execArgv": ARGV passed to node on fork, normally used for
-	  debugging, example: `["--nolazy", "--inspect-brk=6045"]`
+        - "runtime": Absolute path of node runtime, node runtime of coc.nvim
+        is used by default.
 
-	- "transport": Transport kind used by server, could be 'ipc', 'stdio',
-	  'socket' and 'pipe'. 'ipc' is used by default (recommended).
+        - "execArgv": ARGV passed to node on fork, normally used for
+        debugging, example: `["--nolazy", "--inspect-brk=6045"]`
 
-	- "transportPort": Port number used when transport is 'socket'.
+        - "transport": Transport kind used by server, could be 'ipc', 'stdio',
+        'socket' and 'pipe'. 'ipc' is used by default (recommended).
 
-Language server use initialized socket server:~
+        - "transportPort": Port number used when transport is 'socket'.
 
-	- "port": Port number of socket server.
+    Language server use initialized socket server:~
 
-	- "host": Host of socket server, default to `127.0.0.1`.
+        - "port": Port number of socket server.
+
+        - "host": Host of socket server, default to `127.0.0.1`.
 
 ==============================================================================
 DIY_again
